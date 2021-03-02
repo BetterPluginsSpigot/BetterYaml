@@ -41,4 +41,13 @@
         </dependency>
     </dependencies>
 
+    <!-- Publish GitHub packages -->
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub BetterPluginsSpigot Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/betterpluginsspigot/betteryaml</url>
+        </repository>
+    </distributionManagement>
+
 </project>
