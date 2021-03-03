@@ -77,13 +77,21 @@ free_pizza: false
 
 
 ## Setup BetterYaml to work with your project
-Add the following dependency to your pom:
+Add the following to your pom:
 ```
-<dependency>
-  <groupId>be.dezijwegel.betteryaml</groupId>
-  <artifactId>betteryaml</artifactId>
-  <version>1.0.0</version>
-</dependency>
+<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+</repositories>
+<dependencies>
+	<dependency>
+	    <groupId>com.github.BetterPluginsSpigot</groupId>
+	    <artifactId>BetterYaml</artifactId>
+	    <version>1.0.2</version>
+	</dependency>
+</dependencies>
 ```
 Preferably, use the latest version to get all features. Check [BetterYaml Packages](https://github.com/orgs/BetterPluginsSpigot/packages?repo_name=BetterYaml) to find which is the latest version.
 
