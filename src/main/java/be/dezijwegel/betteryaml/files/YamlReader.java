@@ -40,7 +40,8 @@ public class YamlReader {
         LoaderOptions loaderOptions = new LoaderOptions();
         loaderOptions.setAllowRecursiveKeys(true);
         Yaml yaml = new Yaml(loaderOptions);
-        Map<String, Object> yamlContent = yaml.load(fis);
+        Map<String, Object> temp = yaml.load(fis);
+        Map<String, Object> yamlContent = temp != null ? temp : new HashMap<>();
 
         for (Map.Entry<String, Object> entry : yamlContent.entrySet())
         {
