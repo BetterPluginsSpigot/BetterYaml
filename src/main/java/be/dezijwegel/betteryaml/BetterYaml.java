@@ -3,8 +3,10 @@ package be.dezijwegel.betteryaml;
 import be.dezijwegel.betteryaml.files.TempFileCopier;
 import be.dezijwegel.betteryaml.files.YamlReader;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -19,8 +21,34 @@ public class BetterYaml {
     private final File file;
     private final YamlConfiguration yamlConfiguration;
 
+    /**
+     * Creates a BetterYaml instance that will handle your config files
+     * For the server's file: Missing options will be autocompleted and comments will be updated based on the template
+     * No settings will be changed
+     * Will not log any messages to the console
+     *
+     * @param name the name of the config file eg. "ourConfig.yml"
+     * @param plugin the JavaPlugin for which a file is copied
+     * @throws IOException when your configuration is incorrect
+     */
+    public BetterYaml(String name, JavaPlugin plugin) throws IOException
+    {
+        this(name, plugin, false);
+    }
+
+    /**
+     * Creates a BetterYaml instance that will handle your config files
+     * For the server's file: Missing options will be autocompleted and comments will be updated based on the template
+     * No settings will be changed
+     *
+     * @param name the name of the config file eg. "ourConfig.yml"
+     * @param plugin the JavaPlugin for which a file is copied
+     * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
+     * @throws IOException when your configuration is incorrect
+     */
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public BetterYaml(String name, JavaPlugin plugin) throws IOException {
+    public BetterYaml(String name, JavaPlugin plugin, boolean doLogging) throws IOException
+    {
 
         //
         // Copy temp files
@@ -40,8 +68,11 @@ public class BetterYaml {
         Map<String, Object> liveContents;
         if (liveConfig.exists())
             liveContents = new YamlReader(liveConfig).getContents();
-        else
+        else {
+            if (doLogging)
+                plugin.getLogger().info(ChatColor.GREEN + "Copying a new " + name + "...");
             liveContents = new HashMap<>();
+        }
 
         // Get config with default values
         File defaultFile = new File(plugin.getDataFolder() + File.separator + "temp", name);
@@ -50,6 +81,16 @@ public class BetterYaml {
         // Merge live and default values
         YamlMerger merger = new YamlMerger( defaultContents );
         Map<String, Object> newContents = merger.merge( liveContents );
+
+        if (doLogging)
+        {
+            // Do a missing options estimation
+            // May be inaccurate when the user has key-value pairs that are not in the default file
+            // Accurate readings require iterating over the map which is not worth it for a simple logging feature
+            int difference = defaultContents.size() - liveContents.size();
+            if (difference > 0)
+                plugin.getLogger().info("Estimated " + difference + " missing options in " + name + ". Autocompleting your config file...");
+        }
 
 
         //
