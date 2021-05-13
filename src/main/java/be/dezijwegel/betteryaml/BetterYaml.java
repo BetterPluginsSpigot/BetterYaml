@@ -50,6 +50,11 @@ public class BetterYaml {
     public BetterYaml(String name, JavaPlugin plugin, boolean doLogging) throws IOException
     {
 
+        // Create plugin folder if it does not exist
+        File folder = plugin.getDataFolder();
+        if (!folder.exists())
+            folder.mkdir();
+
         //
         // Copy temp files
         //
