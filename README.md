@@ -160,13 +160,37 @@ free_pizza: {free_pizza}
 # It is good practice to wrap placeholders that will be replaced by a String with ""
 string_option: "This is a String!"
 ```
+</details>
 
 ## Using the library
-Using BetterYaml is very simple once our project is set up. An `IOException` is thrown when your setup contains errors.
+Using BetterYaml is very simple once our project is set up. 
+BetterYaml can be utilised in two different ways, through `BetterYaml` or `OptionalBetterYaml`. The former is our legacy approach and is left in to prevent breaking code when upgrading. And the latter is a new addition, which does not require catching Exceptions.
+
+### OptionalBetterYaml
+When using the `OptionalBetterYaml` class to handle our files:
+```
+// Auto-updates the config on the server and loads a YamlConfiguration and File
+OptionalBetterYaml ourConfig = new OptionalBetterYaml("ourConfig.yml", javaPlugin);
+
+// Get the Optional container 
+Optional<YamlConfiguration> loadResult = ourConfig.getYamlConfiguration();
+// Check if the configuration was loaded correctly
+boolean isReadingSuccess = loadResult.isPresent();  // True if it was loaded correctly, false if an Exception occurred. This is the other way around for Optional#isEmpty() 
+// Get a YamlConfiguration to do your regular config reading. ONLY do this if `loadResult.isPresent()` returns true!
+YamlConfiguration yaml = loadResult.get();
+
+// Not enough? You can also get a File instance and handle it the same way we handled the YamlConfiguration
+Optional<File> file = ourConfig.getFile();
+```
+
+### BetterYaml
+When using the `BetterYaml` class to handle our files:
+An `IOException` is thrown when your setup contains errors.
 We are assuming that javaPlugin is an instance of your class that extends `JavaPlugin`. In an instance of that class, you can also pass `this` instead.
 ```
 // Auto-updates the config on the server and loads a YamlConfiguration and File
 BetterYaml ourConfig = new BetterYaml("ourConfig.yml", javaPlugin);
+
 // Get a YamlConfiguration to do your regular config reading
 YamlConfiguration yaml = ourConfig.getYamlConfiguration();
 // Not enough? You can also get a File instance
@@ -175,4 +199,5 @@ File file = ourConfig.getFile();
 
 ## Limitations
 There is no guaranteed support for lists or multi-line values, but nested keys are considered valid.
+Does not work for Minecraft versions prior to 1.16.
 
