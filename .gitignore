@@ -1,3 +1,4 @@
 target/
 .idea/
 BetterYaml.iml
+dependency-reduced-pom.xml
