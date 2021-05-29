@@ -199,5 +199,3 @@ File file = ourConfig.getFile();
 
 ## Limitations
 There is no guaranteed support for lists or multi-line values, but nested keys are considered valid.
-Does not work for Minecraft versions prior to 1.16.
-
