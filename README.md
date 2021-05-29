@@ -89,7 +89,7 @@ Add the following to your pom:
 	<dependency>
 	    <groupId>com.github.BetterPluginsSpigot</groupId>
 	    <artifactId>BetterYaml</artifactId>
-	    <version>1.0.4</version>
+	    <version>1.0.5</version>
 	</dependency>
 </dependencies>
 ```
