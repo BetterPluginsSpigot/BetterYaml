@@ -93,6 +93,38 @@ Add the following to your pom:
 	</dependency>
 </dependencies>
 ```
+To prevent compatibility issues with other plugins (these may prevent your plugin from enabling!), relocate BetterYAML to a uniquely named part of your JAR-file:
+<details>
+<summary>Prevent compatibility issues</summary>
+```
+<build>
+<!-- Shade BetterYAML into your jar-->
+   <plugins>
+      <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-shade-plugin</artifactId>
+         <version>3.2.1</version>
+         <configuration>
+            <relocations>
+               <relocation>
+                  <pattern>be.dezijwegel.betteryaml</pattern>
+                  <shadedPattern>YOUR.UNIQUE.PACKAGE.NAME.HERE</shadedPattern>
+               </relocation>
+            </relocations>
+         </configuration>
+         <executions>
+            <execution>
+               <phase>package</phase>
+               <goals>
+                  <goal>shade</goal>
+               </goals>
+            </execution>
+         </executions>
+      </plugin>
+   </plugins>
+</build>
+```
+</details>
 Preferably, use the latest version to get all features. Check [BetterYaml Packages](https://github.com/orgs/BetterPluginsSpigot/packages?repo_name=BetterYaml) to find which is the latest version.
 
 For each config file, we need to create two files in our resources folder.
