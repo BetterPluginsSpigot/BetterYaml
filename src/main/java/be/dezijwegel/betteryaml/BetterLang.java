@@ -8,47 +8,58 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
-public class OptionalBetterYaml implements IOptionalConfigReader
+public class BetterLang implements IOptionalConfigReader
 {
-
 
     private final File file;
     private final YamlConfiguration yamlConfiguration;
 
-
     /**
-     * Handles IOException internally for those who want to avoid handling try-catches
-     * A File and YamlConfiguration can later be retrieved as an Optional
-     * Creates a BetterYaml instance that will handle your config files
-     * For the server's file: Missing options will be autocompleted and comments will be updated based on the template
-     * No settings will be changed
-     * Will not log any messages to the console
+     * Easily manage localised language files
+     * The language template must be located in the /templates folder
+     * Any default language contents must be located in the /lang folder
+     * Logging is disabled
      *
-     * @param name the name of the config file eg. "ourConfig.yml"
-     * @param plugin the JavaPlugin for which a file is copied
+     * @param name The name of the language (/lang) file, which is equal to the name of the template in the templates folder
+     * @param plugin The relevant JavaPlugin
      */
-    public OptionalBetterYaml(String name, JavaPlugin plugin)
+    public BetterLang(String name, JavaPlugin plugin)
     {
-        this(name, plugin, false);
+        this(name, name, plugin, false);
     }
 
 
     /**
-     * Handles IOException internally for those who want to avoid handling try-catches
-     * A File and YamlConfiguration can later be retrieved as an Optional
-     * Creates a BetterYaml instance that will handle your config files
-     * For the server's file: Missing options will be autocompleted and comments will be updated based on the template
-     * No settings will be changed
+     * Easily manage localised language files
+     * The language template must be located in the /templates folder
+     * Any default language contents must be located in the /lang folder
+     * Logging is disabled
      *
-     * @param name the name of the config file eg. "ourConfig.yml"
-     * @param plugin the JavaPlugin for which a file is copied
+     * @param template The name of the template in the /templates folder
+     * @param localised The name of the language file, located in the /lang folder
+     * @param plugin The relevant JavaPlugin
+     */
+    public BetterLang(String template, String localised, JavaPlugin plugin)
+    {
+        this(template, localised, plugin, false);
+    }
+
+
+    /**
+     * Easily manage localised language files
+     * The language template must be located in the /templates folder
+     * Any default language contents must be located in the /lang folder
+     *
+     * @param template The name of the template in the /templates folder
+     * @param localised The name of the language file, located in the /lang folder
+     * @param plugin The relevant JavaPlugin
      * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
      */
-    public OptionalBetterYaml(String name, JavaPlugin plugin, boolean doLogging)
+    public BetterLang(String template, String localised, JavaPlugin plugin, boolean doLogging)
     {
         BetterYaml betterYaml = null;
         try {
-            betterYaml = new BetterYaml(name, plugin, doLogging);
+            betterYaml = new BetterYaml(template, localised, "lang/", plugin, doLogging);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,9 +75,7 @@ public class OptionalBetterYaml implements IOptionalConfigReader
             this.file = betterYaml.getFile();
             this.yamlConfiguration = betterYaml.getYamlConfiguration();
         }
-
     }
-
 
     /**
      * Get the loaded File. You can check if any error has occurred with Optional#isEmpty().

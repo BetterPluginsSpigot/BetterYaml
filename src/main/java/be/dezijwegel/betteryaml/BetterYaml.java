@@ -2,6 +2,8 @@ package be.dezijwegel.betteryaml;
 
 import be.dezijwegel.betteryaml.files.TempFileCopier;
 import be.dezijwegel.betteryaml.files.YamlReader;
+import be.dezijwegel.betteryaml.interfaces.IConfigReader;
+import be.dezijwegel.betteryaml.util.YamlMerger;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -15,7 +17,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BetterYaml {
+public class BetterYaml implements IConfigReader
+{
 
     private final File file;
     private final YamlConfiguration yamlConfiguration;
@@ -25,11 +28,14 @@ public class BetterYaml {
      * For the server's file: Missing options will be autocompleted and comments will be updated based on the template
      * No settings will be changed
      * Will not log any messages to the console
+     * @deprecated We advise using OptionalBetterYaml, this causes less clutter in your code.
+     * However, this class will not be removed in future versions as some people may want to handle exceptions themselves.
      *
      * @param name the name of the config file eg. "ourConfig.yml"
      * @param plugin the JavaPlugin for which a file is copied
      * @throws IOException when your configuration is incorrect
      */
+    @Deprecated
     public BetterYaml(String name, JavaPlugin plugin) throws IOException
     {
         this(name, plugin, false);
@@ -39,14 +45,38 @@ public class BetterYaml {
      * Creates a BetterYaml instance that will handle your config files
      * For the server's file: Missing options will be autocompleted and comments will be updated based on the template
      * No settings will be changed
+     * @deprecated We advise using OptionalBetterYaml, this causes less clutter in your code.
+     * However, this class will not be removed in future versions as some people may want to handle exceptions themselves.
      *
      * @param name the name of the config file eg. "ourConfig.yml"
      * @param plugin the JavaPlugin for which a file is copied
      * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
      * @throws IOException when your configuration is incorrect
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @Deprecated
     public BetterYaml(String name, JavaPlugin plugin, boolean doLogging) throws IOException
+    {
+        this(name, name, "", plugin, doLogging);
+    }
+
+
+    /**
+     * Creates a BetterYaml instance that will handle your config files
+     * For the server's file: Missing options will be autocompleted and comments will be updated based on the template
+     * No settings will be changed
+     * @deprecated We advise using this constructor as it is meant for internal use only.
+     * This constructor enables you to alter the desired path structure, so only use it when you know what you are doing!
+     *
+     * @param template the name of the template/live config file eg. "ourConfig.yml"
+     * @param defaultValues the name of the config file that contains the default values
+     * @param defaultValuesPath the path to the default resource (ending on a /)
+     * @param plugin the JavaPlugin for which a file is copied
+     * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
+     * @throws IOException when your configuration is incorrect
+     */
+    @Deprecated
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public BetterYaml(String template, String defaultValues, String defaultValuesPath, JavaPlugin plugin, boolean doLogging) throws IOException
     {
 
         // Create plugin folder if it does not exist
@@ -58,8 +88,8 @@ public class BetterYaml {
         // Copy temp files
         //
 
-        TempFileCopier defaultCopy = new TempFileCopier( plugin, "", name, "temp" + File.separator );
-        TempFileCopier templateCopy = new TempFileCopier( plugin, "templates/", name, "temp" + File.separator + "templates" + File.separator);
+        TempFileCopier defaultCopy = new TempFileCopier( plugin, defaultValuesPath, defaultValues, "temp" + File.separator );
+        TempFileCopier templateCopy = new TempFileCopier( plugin, "templates/", template, "temp" + File.separator + "templates" + File.separator);
 
 
         //
@@ -68,18 +98,18 @@ public class BetterYaml {
 
 
         // Get config options on the live server
-        File liveConfig = new File(plugin.getDataFolder(), name);
+        File liveConfig = new File(plugin.getDataFolder(), template);
         Map<String, Object> liveContents;
         if (liveConfig.exists())
             liveContents = new YamlReader(liveConfig).getContents();
         else {
             if (doLogging)
-                plugin.getLogger().info(ChatColor.GREEN + "Copying a new " + name + "...");
+                plugin.getLogger().info(ChatColor.GREEN + "Copying a new " + template + "...");
             liveContents = new HashMap<>();
         }
 
         // Get config with default values
-        File defaultFile = new File(plugin.getDataFolder() + File.separator + "temp", name);
+        File defaultFile = new File(plugin.getDataFolder() + File.separator + "temp", defaultValues);
         Map<String, Object> defaultContents = new YamlReader( defaultFile ).getContents();
 
         // Merge live and default values
@@ -93,7 +123,7 @@ public class BetterYaml {
             // Accurate readings require iterating over the map which is not worth it for a simple logging feature
             int difference = defaultContents.size() - liveContents.size();
             if (difference > 0)
-                plugin.getLogger().info("Estimated " + difference + " missing options in " + name + ". Autocompleting your config file...");
+                plugin.getLogger().info("Estimated " + difference + " missing options in " + template + ". Autocompleting your config file...");
         }
 
 
@@ -103,8 +133,8 @@ public class BetterYaml {
 
 
         // Prepare file writer and template reader
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get( plugin.getDataFolder() + File.separator + name ));
-        BufferedReader reader = new BufferedReader( new FileReader( new File(plugin.getDataFolder() + File.separator + "temp/templates/" + name) ) );
+        BufferedWriter writer = Files.newBufferedWriter(Paths.get( plugin.getDataFolder() + File.separator + template ));
+        BufferedReader reader = new BufferedReader( new FileReader( new File(plugin.getDataFolder() + File.separator + "temp/templates/" + template) ) );
 
         // Prepare YAMLSnake
         DumperOptions options = new DumperOptions();
@@ -155,10 +185,11 @@ public class BetterYaml {
         // Read final config contents
         //
 
-        File file = new File(plugin.getDataFolder() + File.separator + name);
+        File file = new File(plugin.getDataFolder() + File.separator + template);
         this.file = file;
         this.yamlConfiguration = YamlConfiguration.loadConfiguration( file );
     }
+
 
     public File getFile()
     {

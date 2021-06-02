@@ -1,4 +1,4 @@
-package be.dezijwegel.betteryaml;
+package be.dezijwegel.betteryaml.util;
 
 import java.util.HashMap;
 import java.util.Map;
