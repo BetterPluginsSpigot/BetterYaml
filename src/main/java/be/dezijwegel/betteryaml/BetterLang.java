@@ -6,6 +6,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class BetterLang implements IOptionalConfigReader
@@ -100,5 +102,27 @@ public class BetterLang implements IOptionalConfigReader
     public Optional<YamlConfiguration> getYamlConfiguration()
     {
         return yamlConfiguration != null ? Optional.of( yamlConfiguration ) : Optional.empty();
+    }
+
+    /**
+     * Get all messages in this language file. This reads the configuration and returns a Mapping of key <-> message
+     * Try to only call this once per lang file (to prevent an overhead)
+     *
+     * @return a Map that may, or may not contain the mapping of keys to messages
+     */
+    public Map<String, String> getMessages()
+    {
+        final Map<String, String> values = new HashMap<>();
+
+        if (this.yamlConfiguration == null)
+            return values;
+
+        for (String path : yamlConfiguration.getKeys(true))
+        {
+            String value = yamlConfiguration.getString(path);
+            if (value != null && !yamlConfiguration.isConfigurationSection(path))
+                values.put( path, value );
+        }
+        return values;
     }
 }
