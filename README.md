@@ -94,8 +94,7 @@ Add the following to your pom:
 </dependencies>
 ```
 To prevent compatibility issues with other plugins (these may prevent your plugin from enabling!), relocate BetterYAML to a uniquely named part of your JAR-file:
-<details>
-<summary>Prevent compatibility issues</summary>
+
 ```
 <build>
 <!-- Shade BetterYAML into your jar-->
@@ -124,7 +123,7 @@ To prevent compatibility issues with other plugins (these may prevent your plugi
    </plugins>
 </build>
 ```
-</details>
+
 Preferably, use the latest version to get all features. Check [BetterYaml Packages](https://github.com/orgs/BetterPluginsSpigot/packages?repo_name=BetterYaml) to find which is the latest version.
 
 For each config file, we need to create two files in our resources folder.
