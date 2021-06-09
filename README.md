@@ -228,5 +228,21 @@ YamlConfiguration yaml = ourConfig.getYamlConfiguration();
 File file = ourConfig.getFile();
 ```
 
+### BetterLang
+We can use `BetterLang` to read multiple language files that are linked to a single template. It operates similar to `OptionalBetterYaml` with some minor differences. 
+The `langTemplate.yml` must be in the `templates` folder and all localised files must be in a folder called `lang`.
+You can get the configuration section in exactly the same way as for `OptionalBetterYaml`, but `BetterLang` has an additional method: `getMessages()` which will return a `(Hash)Map<String, String>` of all key-value pairs.
+```
+// Auto-updates the config on the server and loads a YamlConfiguration and File. Optionally, a boolean can be passed, which enables or disables logging.
+BetterLang localisation = new BetterLang("langTemplate.yml", "localisedCode.yml", javaPlugin);
+
+// Get all message names and their mapped messages. Useful when sending named messages to players (eg: see below)
+Map<String, String> messages = localisation.getMessages();
+
+// Our imaginary config contains an option: no_permission: "You have no permission!"
+// We want to send this to a player without hard coding the message:
+player.sendMessage( messages.getOrDefault("no_permission", "no_permission") );
+```
+
 ## Limitations
 There is no guaranteed support for lists or multi-line values, but nested keys are considered valid.
