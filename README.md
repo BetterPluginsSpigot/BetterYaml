@@ -246,6 +246,35 @@ The language template file must be in the `templates` folder and all localised f
 ```
 Similar to BetterYaml, the file in the `templates` folder (`lang.yml` in this case) contains all placeholders, comments and the layout of the config file. The files in the `lang` folder, are actual default settings for each language that you can indicate with a code. For clarity, we wrote the full language name as file names but language codes are considered better practice (eg. `en-us.yml` instead of `english.yml`). Note that the name of the template file will be used as config file on the server. In other words, the server will never have a file called `english.yml` or `dutch.yml`, it will always be `lang.yml`.
 
+Some example file contents can be found below:
+<details>
+<summary>resources/templates/lang.yml</summary>
+
+```
+# Hello world plugin header!
+	
+# This message is sent on plugin startup!
+hello_world: {hello_world}
+```
+</details>
+
+The default-value files themselves, must only contain all default values (comments are ignored in these files). Try to always provide a value for all settings, in all default files. Want to automate this? Check out [YAML localisation sync](https://github.com/Nuytemans-Dieter/YAML-localisation-sync)!
+
+<details>
+<summary>resources/lang/english.yml</summary>
+
+```
+hello_world: "Hello world!"
+```
+</details>
+<details>
+<summary>resources/templates/dutch.yml</summary>
+
+```
+hello_world: "Hallo wereld!"
+```
+</details>
+
 You can get the configuration section in exactly the same way as for `OptionalBetterYaml`, but `BetterLang` has an additional method: `getMessages()` which will return a `(Hash)Map<String, String>` of all key-value pairs.
 ```
 // Auto-updates the config on the server and loads a YamlConfiguration and File. Optionally, a boolean can be passed, which enables or disables logging.
