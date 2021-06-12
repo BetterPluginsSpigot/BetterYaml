@@ -230,11 +230,28 @@ File file = ourConfig.getFile();
 
 ### BetterLang
 We can use `BetterLang` to read multiple language files that are linked to a single template. It operates similar to `OptionalBetterYaml` with some minor differences. 
-The `langTemplate.yml` must be in the `templates` folder and all localised files must be in a folder called `lang`.
+The `langTemplate.yml` must be in the `templates` folder and all localised files must be in a folder called `lang`. For an example configuration, see the small setup below:
+
+```
+| - .git/
+| - src/
+|    | - <redacted>
+| - resources
+|    | - templates/
+|         | - lang.yml
+|    | - lang/
+|         | - english.yml
+|         | - dutch.yml
+| - pom.xml
+```
+Similar to BetterYaml, the file in the `templates` folder (`lang.yml` in this case) contains all placeholders, comments and the layout of the config file. The files in the `lang` folder, are actual default settings for each language that you can indicate with a code. For clarity, we wrote the full language name as file names but language codes are considered better practice (eg. `en-us.yml` instead of `english.yml`). Note that the name of the template file will be used as config file on the server. In other words, the server will never have a file called `english.yml` or `dutch.yml`, it will always be `lang.yml`.
+
 You can get the configuration section in exactly the same way as for `OptionalBetterYaml`, but `BetterLang` has an additional method: `getMessages()` which will return a `(Hash)Map<String, String>` of all key-value pairs.
 ```
 // Auto-updates the config on the server and loads a YamlConfiguration and File. Optionally, a boolean can be passed, which enables or disables logging.
-BetterLang localisation = new BetterLang("langTemplate.yml", "localisedCode.yml", javaPlugin);
+// lang.yml must be replaced by the name of your language template file, which contains the default lay-out / comments and is located in the templates folder
+// localisedCode.yml is the file name in the 'lang' folder that contains our default values (english.yml or dutch.yml in our example setup)
+BetterLang localisation = new BetterLang("lang.yml", "localisedCode.yml", javaPlugin);
 
 // Get all message names and their mapped messages. Useful when sending named messages to players (eg: see below)
 Map<String, String> messages = localisation.getMessages();
