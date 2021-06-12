@@ -230,7 +230,7 @@ File file = ourConfig.getFile();
 
 ### BetterLang
 We can use `BetterLang` to read multiple language files that are linked to a single template. It operates similar to `OptionalBetterYaml` with some minor differences. 
-The `langTemplate.yml` must be in the `templates` folder and all localised files must be in a folder called `lang`. For an example configuration, see the small setup below:
+The language template file must be in the `templates` folder and all localised files must be in a folder called `lang`. For an example configuration, see the small setup below:
 
 ```
 | - .git/
