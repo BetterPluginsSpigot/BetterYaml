@@ -1,3 +1,5 @@
+Check [our wiki](https://github.com/BetterPluginsSpigot/BetterYaml/wiki) for more info & all documentation!
+
 # BetterYaml [![](https://jitpack.io/v/betterpluginsspigot/betteryaml.svg)](https://jitpack.io/#betterpluginsspigot/betteryaml)
 Easily add/remove config options or contents without overriding the server's settings. 
 This tool is written specifically for Spigot plugins but may be adapted to work in any environment, feel free to fork this repo.
