@@ -134,7 +134,7 @@ public class BetterYaml implements IConfigReader
 
         // Prepare file writer and template reader
         BufferedWriter writer = Files.newBufferedWriter(Paths.get( plugin.getDataFolder() + File.separator + template ));
-        BufferedReader reader = new BufferedReader( new FileReader( new File(plugin.getDataFolder() + File.separator + "temp/templates/" + template) ) );
+        BufferedReader reader = new BufferedReader( new FileReader(plugin.getDataFolder() + File.separator + "temp/templates/" + template) );
 
         // Prepare YAMLSnake
         DumperOptions options = new DumperOptions();
@@ -157,7 +157,7 @@ public class BetterYaml implements IConfigReader
                         String dumped = yaml.dump( newContents.get( tag ) );
                         // Remove newline
                         dumped = dumped.substring(0, dumped.length() - 1);
-                        line = line.replace( placeholder, dumped );;
+                        line = line.replace( placeholder, dumped );
                     }
                 }
             }
