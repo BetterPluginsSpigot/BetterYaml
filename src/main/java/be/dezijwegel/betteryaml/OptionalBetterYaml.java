@@ -8,8 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
-public class OptionalBetterYaml implements IOptionalConfigReader
-{
+@SuppressWarnings({"unused", "deprecation"})
+public class OptionalBetterYaml implements IOptionalConfigReader {
 
 
     private final File file;
@@ -27,8 +27,7 @@ public class OptionalBetterYaml implements IOptionalConfigReader
      * @param name the name of the config file eg. "ourConfig.yml"
      * @param plugin the JavaPlugin for which a file is copied
      */
-    public OptionalBetterYaml(String name, JavaPlugin plugin)
-    {
+    public OptionalBetterYaml(final String name, final JavaPlugin plugin) {
         this(name, plugin, false);
     }
 
@@ -44,8 +43,7 @@ public class OptionalBetterYaml implements IOptionalConfigReader
      * @param plugin the JavaPlugin for which a file is copied
      * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
      */
-    public OptionalBetterYaml(String name, JavaPlugin plugin, boolean doLogging)
-    {
+    public OptionalBetterYaml(final String name, final JavaPlugin plugin, final boolean doLogging) {
         BetterYaml betterYaml = null;
         try {
             betterYaml = new BetterYaml(name, plugin, doLogging);
@@ -54,13 +52,10 @@ public class OptionalBetterYaml implements IOptionalConfigReader
         }
 
         // Any of these is null? Something went wrong -> empty!
-        if (betterYaml == null || betterYaml.getFile() == null || betterYaml.getYamlConfiguration() == null)
-        {
+        if (betterYaml == null || betterYaml.getFile() == null || betterYaml.getYamlConfiguration() == null) {
             this.file = null;
             this.yamlConfiguration = null;
-        }
-        else
-        {
+        } else {
             this.file = betterYaml.getFile();
             this.yamlConfiguration = betterYaml.getYamlConfiguration();
         }
@@ -75,8 +70,7 @@ public class OptionalBetterYaml implements IOptionalConfigReader
      *
      * @return an optional file, never null. But no value will be present if an Exception was thrown while reading the configuration
      */
-    public Optional<File> getFile()
-    {
+    public Optional<File> getFile() {
         return file != null ? Optional.of( file ) : Optional.empty();
     }
 
@@ -88,8 +82,7 @@ public class OptionalBetterYaml implements IOptionalConfigReader
      *
      * @return an optional YamlConfiguration, never null. But no value will be present if an Exception was thrown while reading the configuration
      */
-    public Optional<YamlConfiguration> getYamlConfiguration()
-    {
+    public Optional<YamlConfiguration> getYamlConfiguration() {
         return yamlConfiguration != null ? Optional.of( yamlConfiguration ) : Optional.empty();
     }
 

@@ -22,27 +22,25 @@ public class TempFileCopier {
      * @param path the path that specifies the folder to copy to. MUST end with a forward slash, but none in front eg. subfolder/
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public TempFileCopier(@NotNull Plugin plugin, String resourcePath, String fileName, String path) throws IOException {
+    public TempFileCopier(final @NotNull Plugin plugin, final String resourcePath, final String fileName, final String path) throws IOException {
 
-        BufferedReader defaultReader = new BufferedReader( new InputStreamReader(Objects.requireNonNull(plugin.getResource( resourcePath + fileName)), StandardCharsets.UTF_8) );
+        BufferedReader defaultReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(plugin.getResource(resourcePath + fileName)), StandardCharsets.UTF_8));
         String tempPath = plugin.getDataFolder() + File.separator + path;
         File tempFolder = new File(tempPath);
         tempFolder.mkdir();
 
-        FileWriter fileWriter = new FileWriter( tempPath + fileName);
-        BufferedWriter tempWriter = new BufferedWriter( fileWriter );
-        while ( defaultReader.ready() )
-        {
+        FileWriter fileWriter = new FileWriter(tempPath + fileName);
+        BufferedWriter tempWriter = new BufferedWriter(fileWriter);
+        while (defaultReader.ready()) {
             String line = defaultReader.readLine();
-            tempWriter.write( line );
+            tempWriter.write(line);
             tempWriter.newLine();
         }
 
         defaultReader.close();
         tempWriter.close();
 
-        copiedFile = new File( tempPath + File.separator + fileName);
-
+        copiedFile = new File(tempPath + File.separator + fileName);
     }
 
 
@@ -50,8 +48,7 @@ public class TempFileCopier {
      * Delete the copied file
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void deleteCopiedFile()
-    {
+    public void deleteCopiedFile() {
         this.copiedFile.delete();
     }
 
