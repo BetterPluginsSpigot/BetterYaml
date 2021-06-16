@@ -1,6 +1,7 @@
 package be.dezijwegel.betteryaml.files;
 
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -21,7 +22,7 @@ public class TempFileCopier {
      * @param path the path that specifies the folder to copy to. MUST end with a forward slash, but none in front eg. subfolder/
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public TempFileCopier(Plugin plugin, String resourcePath, String fileName, String path) throws IOException {
+    public TempFileCopier(@NotNull Plugin plugin, String resourcePath, String fileName, String path) throws IOException {
 
         BufferedReader defaultReader = new BufferedReader( new InputStreamReader(Objects.requireNonNull(plugin.getResource( resourcePath + fileName)), StandardCharsets.UTF_8) );
         String tempPath = plugin.getDataFolder() + File.separator + path;
