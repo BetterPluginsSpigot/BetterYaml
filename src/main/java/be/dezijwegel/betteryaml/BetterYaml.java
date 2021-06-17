@@ -3,6 +3,7 @@ package be.dezijwegel.betteryaml;
 import be.dezijwegel.betteryaml.files.TempFileCopier;
 import be.dezijwegel.betteryaml.files.YamlReader;
 import be.dezijwegel.betteryaml.interfaces.IConfigReader;
+import be.dezijwegel.betteryaml.representer.YamlStringRepresenter;
 import be.dezijwegel.betteryaml.util.YamlMerger;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
@@ -64,7 +65,7 @@ public class BetterYaml implements IConfigReader
      * Creates a BetterYaml instance that will handle your config files
      * For the server's file: Missing options will be autocompleted and comments will be updated based on the template
      * No settings will be changed
-     * @deprecated We advise using this constructor as it is meant for internal use only.
+     * @deprecated We advise against using this constructor as it is meant for internal use only.
      * This constructor enables you to alter the desired path structure, so only use it when you know what you are doing!
      *
      * @param template the name of the template/live config file eg. "ourConfig.yml"
@@ -139,7 +140,7 @@ public class BetterYaml implements IConfigReader
         // Prepare YAMLSnake
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        Yaml yaml = new Yaml(options);
+        Yaml yaml = new Yaml(new YamlStringRepresenter(), options);
 
         // Go through the template and replace all placeholders
         String line;
