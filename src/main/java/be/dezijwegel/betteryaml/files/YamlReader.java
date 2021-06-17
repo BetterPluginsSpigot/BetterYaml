@@ -10,7 +10,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class YamlReader {
+public class YamlReader
+{
 
     private final Map<String, Object> contents = new HashMap<>();
 
