@@ -139,6 +139,7 @@ public class BetterYaml implements IConfigReader
 
         // Prepare YAMLSnake
         DumperOptions options = new DumperOptions();
+        options.setWidth(500);
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Yaml yaml = new Yaml(new YamlStringRepresenter(), options);
 
