@@ -2,8 +2,9 @@ package be.dezijwegel.betteryaml;
 
 import be.dezijwegel.betteryaml.files.TempFileCopier;
 import be.dezijwegel.betteryaml.files.YamlReader;
+import be.dezijwegel.betteryaml.formatting.CustomFormatter;
 import be.dezijwegel.betteryaml.interfaces.IConfigReader;
-import be.dezijwegel.betteryaml.representer.YamlStringRepresenter;
+import be.dezijwegel.betteryaml.representer.CustomRepresenter;
 import be.dezijwegel.betteryaml.util.YamlMerger;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
@@ -16,7 +17,10 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+;
 
 public class BetterYaml implements IConfigReader
 {
@@ -141,7 +145,10 @@ public class BetterYaml implements IConfigReader
         DumperOptions options = new DumperOptions();
         options.setWidth(500);
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        Yaml yaml = new Yaml(new YamlStringRepresenter(), options);
+        Yaml yaml = new Yaml(new CustomRepresenter(), options);
+
+        // This formatter fixes resulting strings that could break YAML
+        CustomFormatter formatter = new CustomFormatter();
 
         // Go through the template and replace all placeholders
         String line;
@@ -156,9 +163,18 @@ public class BetterYaml implements IConfigReader
                     if ( newContents.containsKey( tag ) )
                     {
                         String placeholder = "{" + tag + "}";
-                        String dumped = yaml.dump( newContents.get( tag ) );
+
+                        // Parse the value
+                        Object value = newContents.get( tag );
+                        String dumped = yaml.dump( value );
+
                         // Remove newline
                         dumped = dumped.substring(0, dumped.length() - 1);
+
+                        // Fix faulty formatting. eg. for lists
+                        dumped = formatter.format( value, dumped );
+
+                        // Write the new value
                         line = line.replace( placeholder, dumped );
                     }
                 }

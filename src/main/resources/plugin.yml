@@ -1,0 +1,5 @@
+name: BetterYamlTest
+author: BetterPlugins
+version: ${project.version}
+api-version: "1.13"
+main: be.dezijwegel.betteryaml.testplugin.TestPlugin

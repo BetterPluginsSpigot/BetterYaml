@@ -6,13 +6,15 @@ import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
-public class YamlStringRepresenter extends Representer
+import java.util.List;
+
+public class CustomRepresenter extends Representer
 {
 
     /**
-     * Heavily inspired by: https://stackoverflow.com/questions/60501519/missing-double-quotes-for-the-required-field-using-snake-yaml
+     * Inspired by: https://stackoverflow.com/questions/60501519/missing-double-quotes-for-the-required-field-using-snake-yaml
      */
-    public YamlStringRepresenter()
+    public CustomRepresenter()
     {
         this.representers.put(String.class, new RepresentYamlString());
     }

@@ -1,0 +1,19 @@
+# This is a config file
+
+string: {string}
+string2: {string2}
+string3: {string3}
+
+number: {number}
+float: {float}
+
+bool: {boolean}
+
+manuallist:
+  - {list.one}
+  - {list.two}
+  - {list.three}
+  - {list.four}
+
+
+autolist: {autolist}
