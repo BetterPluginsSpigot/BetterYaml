@@ -13,3 +13,7 @@ autolist:
   - 456
   - 17.36
   - false
+
+nestedList:
+  - Some value
+  - 754

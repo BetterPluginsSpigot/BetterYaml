@@ -3,6 +3,7 @@ package be.dezijwegel.betteryaml;
 import be.dezijwegel.betteryaml.interfaces.IOptionalConfigReader;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -84,7 +85,7 @@ public class BetterLang implements IOptionalConfigReader
      *
      * @return an optional file, never null. But no value will be present if an Exception was thrown while reading the configuration
      */
-    public Optional<File> getFile()
+    public @NotNull Optional<File> getFile()
     {
         return file != null ? Optional.of( file ) : Optional.empty();
     }
@@ -97,7 +98,7 @@ public class BetterLang implements IOptionalConfigReader
      *
      * @return an optional YamlConfiguration, never null. But no value will be present if an Exception was thrown while reading the configuration
      */
-    public Optional<YamlConfiguration> getYamlConfiguration()
+    public @NotNull Optional<YamlConfiguration> getYamlConfiguration()
     {
         return yamlConfiguration != null ? Optional.of( yamlConfiguration ) : Optional.empty();
     }
@@ -115,7 +116,8 @@ public class BetterLang implements IOptionalConfigReader
         if (this.yamlConfiguration == null)
             return values;
 
-        for (String path : yamlConfiguration.getKeys(true)) {
+        for (String path : yamlConfiguration.getKeys(true))
+        {
             String value = yamlConfiguration.getString(path);
             if (value != null && !yamlConfiguration.isConfigurationSection(path))
                 values.put( path, value );
