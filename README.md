@@ -1,12 +1,14 @@
 Check [our wiki](https://github.com/BetterPluginsSpigot/BetterYaml/wiki) for more info & all documentation!
 
+Javadocs available [here](https://betterpluginsspigot.github.io/BetterYaml/)
+
 # BetterYaml [![](https://jitpack.io/v/betterpluginsspigot/betteryaml.svg)](https://jitpack.io/#betterpluginsspigot/betteryaml)
 Easily add/remove config options or contents without overriding the server's settings. 
 This tool is written specifically for Spigot plugins but may be adapted to work in any environment, feel free to fork this repo.
 We advise using a Maven project for easy dependency management.
 
 ## What can BetterYaml do?
-BetterYaml uses a template file to handle your config files, this allows you to **change comments or config contents very easily** (adding or removing options) between plugin updates.
+BetterYaml uses a template file to handle your config files, this allows you to **change comments or config contents very easily** (adding or removing options) between plugin updates. It also supports fixing faulty configurations (eg. specify minimum/maximum values and never get values outside of this range).
 A very important detail in this process is that _**all server settings will remain intact**_!
 The best part of this that this is all handled **automatically**! You only need to provide the correct files and make an instance of BetterYaml. After this, you can retrieve a `YamlConfiguration` and do your regular config reading.
 It will make sure that the server's config file is **always up to date**.
