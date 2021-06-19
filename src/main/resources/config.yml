@@ -1,0 +1,15 @@
+string: "Double quoted"
+string2: 'Single quoted'
+string3: Not quoted
+number: 256
+float: 15.26
+boolean: true
+list.one: Another String without quotes
+list.two: 2895
+list.three: 14.23
+list.four: true
+autolist:
+  - No quotes
+  - 456
+  - 17.36
+  - false

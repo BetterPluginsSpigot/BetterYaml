@@ -6,6 +6,7 @@ import java.util.Map;
 public class YamlMerger
 {
 
+
     private final Map<String, Object> defaultOptions;
 
     /**
