@@ -24,11 +24,13 @@ public class CustomValidation
 
     public YamlConfiguration validateConfiguration(YamlConfiguration config)
     {
+        // Not as efficient as reading the required validation fields, but this is more readable
         for (String path : config.getKeys(true))
         {
-            if (validationMap.containsKey( path ))
+            Object value = config.get( path );
+            if ( value != null )
             {
-                Object validated = validationMap.get( path ).validate( config.get( path ) );
+                Object validated = validationMap.get( path ).validate( value );
                 config.set(path, validated);
             }
         }

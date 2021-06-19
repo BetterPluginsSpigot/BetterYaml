@@ -2,6 +2,7 @@ package be.dezijwegel.betteryaml.validation.validator.numeric;
 
 import be.dezijwegel.betteryaml.util.NumbersUtil;
 import be.dezijwegel.betteryaml.validation.validator.Validator;
+import org.jetbrains.annotations.NotNull;
 
 public class Max extends Validator
 {
@@ -15,13 +16,13 @@ public class Max extends Validator
      *
      * @param max the highest allowed value (inclusive)
      */
-    public Max(Number max)
+    public Max(@NotNull Number max)
     {
         this.max = max;
     }
 
     @Override
-    public Object validate(Object o)
+    public Object validate(@NotNull Object o)
     {
         if ( !(o instanceof Number) )
             return max;

@@ -1,6 +1,7 @@
 package be.dezijwegel.betteryaml.validation.validator.string;
 
 import be.dezijwegel.betteryaml.validation.validator.Validator;
+import org.jetbrains.annotations.NotNull;
 
 public class LowerCase extends Validator
 {
@@ -11,7 +12,7 @@ public class LowerCase extends Validator
     public LowerCase() {}
 
     @Override
-    public Object validate(Object o)
+    public Object validate(@NotNull Object o)
     {
         if ( !(o instanceof String) )
             return "";

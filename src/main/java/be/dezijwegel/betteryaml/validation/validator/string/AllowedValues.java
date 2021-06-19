@@ -1,6 +1,7 @@
 package be.dezijwegel.betteryaml.validation.validator.string;
 
 import be.dezijwegel.betteryaml.validation.validator.Validator;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -22,7 +23,7 @@ public class AllowedValues extends Validator
      * @param ignoreCase whether upper/lowercase matters
      * @param allowedValue zero, one, or more allowed values (all other inputs are blacklisted)
      */
-    public AllowedValues(String defaultValue, boolean ignoreCase, String... allowedValue)
+    public AllowedValues(@NotNull String defaultValue, boolean ignoreCase, String... allowedValue)
     {
         this.defaultValue = defaultValue;
         this.ignoreCase = ignoreCase;
@@ -41,7 +42,7 @@ public class AllowedValues extends Validator
     }
 
     @Override
-    public Object validate(Object o)
+    public Object validate(@NotNull Object o)
     {
         if ( ! (o instanceof String) )
             return defaultValue;

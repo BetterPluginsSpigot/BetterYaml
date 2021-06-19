@@ -2,6 +2,7 @@ package be.dezijwegel.betteryaml.validation.validator.numeric;
 
 import be.dezijwegel.betteryaml.util.NumbersUtil;
 import be.dezijwegel.betteryaml.validation.validator.Validator;
+import org.jetbrains.annotations.NotNull;
 
 public class Min extends Validator
 {
@@ -14,13 +15,13 @@ public class Min extends Validator
      *
      * @param min the lowest allowed value (inclusive)
      */
-    public Min(Number min)
+    public Min(@NotNull Number min)
     {
         this.min = min;
     }
 
     @Override
-    public Object validate(Object o)
+    public Object validate(@NotNull Object o)
     {
         if ( !(o instanceof Number) )
             return min;
