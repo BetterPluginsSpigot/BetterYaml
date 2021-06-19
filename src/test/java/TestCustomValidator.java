@@ -2,8 +2,8 @@ import be.dezijwegel.betteryaml.validation.ValidationHandler;
 import be.dezijwegel.betteryaml.validation.validator.numeric.Max;
 import be.dezijwegel.betteryaml.validation.validator.numeric.Min;
 import be.dezijwegel.betteryaml.validation.validator.numeric.Range;
-import be.dezijwegel.betteryaml.validation.validator.string.AllowedValues;
-import be.dezijwegel.betteryaml.validation.validator.string.LowerCase;
+import be.dezijwegel.betteryaml.validation.validator.string.StringWhiteList;
+import be.dezijwegel.betteryaml.validation.validator.string.ToLowerCase;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,8 +23,8 @@ public class TestCustomValidator
             .addValidator("min", new Min(5))
             .addValidator("max", new Max(10))
             .addValidator("range", new Range(10, 20))
-            .addValidator("allowed_values", new AllowedValues("default", false, "AlLoWed", "GoOd Too"))
-            .addValidator("lowercase", new LowerCase());
+            .addValidator("allowed_values", new StringWhiteList("default", false, "AlLoWed", "GoOd Too"))
+            .addValidator("lowercase", new ToLowerCase());
     }
 
     @Test

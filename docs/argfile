@@ -16,6 +16,6 @@
 'C:/Users/diete/OneDrive/Documenten/Projecten/BetterYaml/src/main/java/be/dezijwegel/betteryaml/validation/validator/numeric/Max.java'
 'C:/Users/diete/OneDrive/Documenten/Projecten/BetterYaml/src/main/java/be/dezijwegel/betteryaml/validation/validator/numeric/Min.java'
 'C:/Users/diete/OneDrive/Documenten/Projecten/BetterYaml/src/main/java/be/dezijwegel/betteryaml/validation/validator/numeric/Range.java'
-'C:/Users/diete/OneDrive/Documenten/Projecten/BetterYaml/src/main/java/be/dezijwegel/betteryaml/validation/validator/string/AllowedValues.java'
-'C:/Users/diete/OneDrive/Documenten/Projecten/BetterYaml/src/main/java/be/dezijwegel/betteryaml/validation/validator/string/LowerCase.java'
+'C:/Users/diete/OneDrive/Documenten/Projecten/BetterYaml/src/main/java/be/dezijwegel/betteryaml/validation/validator/string/StringWhiteList.java'
+'C:/Users/diete/OneDrive/Documenten/Projecten/BetterYaml/src/main/java/be/dezijwegel/betteryaml/validation/validator/string/ToLowerCase.java'
 'C:/Users/diete/OneDrive/Documenten/Projecten/BetterYaml/src/main/java/be/dezijwegel/betteryaml/validation/validator/Validator.java'

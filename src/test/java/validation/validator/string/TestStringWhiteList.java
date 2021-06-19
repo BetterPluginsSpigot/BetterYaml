@@ -1,26 +1,24 @@
 package validation.validator.string;
 
-import be.dezijwegel.betteryaml.validation.validator.string.AllowedValues;
+import be.dezijwegel.betteryaml.validation.validator.string.StringWhiteList;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Set;
-
-public class TestAllowedValues
+public class TestStringWhiteList
 {
 
-    private AllowedValues allowedValues;
+    private StringWhiteList stringWhiteList;
 
     @Before
     public void setup()
     {
         String defaultValue = "default";
-        allowedValues = new AllowedValues(defaultValue, true, "default", "allowed", "string");
+        stringWhiteList = new StringWhiteList(defaultValue, true, "default", "allowed", "string");
     }
 
     private String validateString(String validate) throws Exception
     {
-        Object result = allowedValues.validate( validate );
+        Object result = stringWhiteList.validate( validate );
         if (result instanceof String)
             return (String) result;
         else throw new Exception("The value : " + validate + " could not be validated to String. Result: " + result);
@@ -43,7 +41,7 @@ public class TestAllowedValues
     @Test
     public void testFaultyInput()
     {
-        Object validated = allowedValues.validate(48);
+        Object validated = stringWhiteList.validate(48);
         assert validated instanceof String;
         assert validated.equals("default");
     }

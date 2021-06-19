@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AllowedValues extends Validator
+public class StringWhiteList extends Validator
 {
 
     private final boolean ignoreCase;
@@ -23,7 +23,7 @@ public class AllowedValues extends Validator
      * @param ignoreCase whether upper/lowercase matters
      * @param allowedValue zero, one, or more allowed values (all other inputs are blacklisted)
      */
-    public AllowedValues(@NotNull String defaultValue, boolean ignoreCase, String... allowedValue)
+    public StringWhiteList(@NotNull String defaultValue, boolean ignoreCase, String... allowedValue)
     {
         this.defaultValue = defaultValue;
         this.ignoreCase = ignoreCase;
