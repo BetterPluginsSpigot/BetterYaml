@@ -1,24 +1,25 @@
-import be.dezijwegel.betteryaml.validation.CustomValidation;
+import be.dezijwegel.betteryaml.validation.ValidationHandler;
 import be.dezijwegel.betteryaml.validation.validator.numeric.Max;
 import be.dezijwegel.betteryaml.validation.validator.numeric.Min;
 import be.dezijwegel.betteryaml.validation.validator.numeric.Range;
 import be.dezijwegel.betteryaml.validation.validator.string.AllowedValues;
 import be.dezijwegel.betteryaml.validation.validator.string.LowerCase;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class TestCustomValidator
 {
 
-    private CustomValidation customValidation;
+    private ValidationHandler validationHandler;
 
     @Before
     public void setup()
     {
-        customValidation = new CustomValidation()
+        validationHandler = new ValidationHandler()
             .addValidator("min", new Min(5))
             .addValidator("max", new Max(10))
             .addValidator("range", new Range(10, 20))
@@ -29,20 +30,20 @@ public class TestCustomValidator
     @Test
     public void testValidation()
     {
-        YamlConfiguration config = new YamlConfiguration();
-        config.set("min", 2);
-        config.set("max", 12);
-        config.set("range", 35);
-        config.set("allowed_values", "allowEd");
-        config.set("lowercase", "LOWERCASE");
+        Map<String, Object> config = new HashMap<>();
+        config.put("min", 2);
+        config.put("max", 12);
+        config.put("range", 35);
+        config.put("allowed_values", "allowEd");
+        config.put("lowercase", "LOWERCASE");
 
-        customValidation.validateConfiguration( config );
+        validationHandler.validateConfiguration( config );
 
-        assert config.getInt("min") == 5;
-        assert config.getInt("max") == 10;
-        assert config.getInt("range") == 20;
-        assert Objects.equals(config.getString("allowed_values"), "default");
-        assert Objects.equals(config.getString("lowercase"), "lowercase");
+        assert (int) config.get("min") == 5;
+        assert (int) config.get("max") == 10;
+        assert (int) config.get("range") == 20;
+        assert Objects.equals(config.get("allowed_values"), "default");
+        assert Objects.equals(config.get("lowercase"), "lowercase");
     }
 
 }

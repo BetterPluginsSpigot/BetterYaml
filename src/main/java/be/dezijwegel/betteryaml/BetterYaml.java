@@ -6,7 +6,7 @@ import be.dezijwegel.betteryaml.formatting.CustomFormatter;
 import be.dezijwegel.betteryaml.interfaces.IConfigReader;
 import be.dezijwegel.betteryaml.representer.CustomRepresenter;
 import be.dezijwegel.betteryaml.util.YamlMerger;
-import be.dezijwegel.betteryaml.validation.CustomValidation;
+import be.dezijwegel.betteryaml.validation.ValidationHandler;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,6 +20,10 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A class aimed at internal use only. It is recommended to use OptionalBetterYaml
+ * However, when you want to handle Exceptions yourself, feel free to use this class
+ */
 @SuppressWarnings({"unused"})
 public class BetterYaml implements IConfigReader
 {
@@ -68,6 +72,25 @@ public class BetterYaml implements IConfigReader
      * Creates a BetterYaml instance that will handle your config files
      * For the server's file: Missing options will be autocompleted and comments will be updated based on the template
      * No settings will be changed
+     * @deprecated We advise using OptionalBetterYaml, this causes less clutter in your code.
+     * However, this class will not be removed in future versions as some people may want to handle exceptions themselves.
+     *
+     * @param name the name of the config file eg. "ourConfig.yml"
+     * @param plugin the JavaPlugin for which a file is copied
+     * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
+     * @throws IOException when your configuration is incorrect
+     */
+    @Deprecated
+    public BetterYaml(final String name, final ValidationHandler validationHandler, final JavaPlugin plugin, final boolean doLogging) throws IOException
+    {
+        this(name, name, "", validationHandler, plugin, doLogging);
+    }
+
+
+    /**
+     * Creates a BetterYaml instance that will handle your config files
+     * For the server's file: Missing options will be autocompleted and comments will be updated based on the template
+     * No settings will be changed
      * @deprecated We advise against using this constructor as it is meant for internal use only.
      * This constructor enables you to alter the desired path structure, so only use it when you know what you are doing!
      *
@@ -82,7 +105,7 @@ public class BetterYaml implements IConfigReader
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public BetterYaml(final String template, final String defaultValues, final String defaultValuesPath, final JavaPlugin plugin, final boolean doLogging) throws IOException
     {
-        this(template, defaultValues, defaultValuesPath, new CustomValidation(), plugin, doLogging);
+        this(template, defaultValues, defaultValuesPath, new ValidationHandler(), plugin, doLogging);
     }
 
     /**
@@ -95,14 +118,14 @@ public class BetterYaml implements IConfigReader
      * @param template the name of the template/live config file eg. "ourConfig.yml"
      * @param defaultValues the name of the config file that contains the default values
      * @param defaultValuesPath the path to the default resource (ending on a /)
-     * @param validator the validator that has to autocorrect some options
+     * @param validationHandler the validator that can autocorrect options, based on your provided settings
      * @param plugin the JavaPlugin for which a file is copied
      * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
      * @throws IOException when your configuration is incorrect
      */
     @Deprecated
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public BetterYaml(final String template, final String defaultValues, final String defaultValuesPath, final CustomValidation validator, final JavaPlugin plugin, final boolean doLogging) throws IOException
+    public BetterYaml(final String template, final String defaultValues, final String defaultValuesPath, final ValidationHandler validationHandler, final JavaPlugin plugin, final boolean doLogging) throws IOException
     {
 
         // Create plugin folder if it does not exist
@@ -142,6 +165,9 @@ public class BetterYaml implements IConfigReader
         YamlMerger merger = new YamlMerger( defaultContents );
         Map<String, Object> newContents = merger.merge( liveContents );
 
+        // Validate the configuration
+        newContents = validationHandler.validateConfiguration(newContents);
+
         if (doLogging)
         {
             // Do a missing options estimation
@@ -164,7 +190,7 @@ public class BetterYaml implements IConfigReader
 
         // Prepare YAMLSnake
         DumperOptions options = new DumperOptions();
-        options.setWidth(500);
+        options.setWidth(750);
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Yaml yaml = new Yaml(new CustomRepresenter(), options);
 

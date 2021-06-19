@@ -1,6 +1,7 @@
 package be.dezijwegel.betteryaml;
 
 import be.dezijwegel.betteryaml.interfaces.IOptionalConfigReader;
+import be.dezijwegel.betteryaml.validation.ValidationHandler;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -11,6 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * BetterLang wraps BetterYaml and allows easy language file reading with support for multiple, localised default contents
+ * It also introduces a getMessages() method that returns a Map, linking message path to message
+ */
 @SuppressWarnings({"unused", "deprecation"})
 public class BetterLang implements IOptionalConfigReader
 {
@@ -39,6 +44,22 @@ public class BetterLang implements IOptionalConfigReader
      * Any default language contents must be located in the /lang folder
      * Logging is disabled
      *
+     * @param name The name of the language (/lang) file, which is equal to the name of the template in the templates folder
+     * @param validationHandler the validator that can autocorrect options, based on your provided settings
+     * @param plugin The relevant JavaPlugin
+     */
+    public BetterLang(final String name, final ValidationHandler validationHandler, final JavaPlugin plugin)
+    {
+        this(name, name, validationHandler, plugin, false);
+    }
+
+
+    /**
+     * Easily manage localised language files
+     * The language template must be located in the /templates folder
+     * Any default language contents must be located in the /lang folder
+     * Logging is disabled
+     *
      * @param template The name of the template in the /templates folder
      * @param localised The name of the language file, located in the /lang folder
      * @param plugin The relevant JavaPlugin
@@ -46,6 +67,22 @@ public class BetterLang implements IOptionalConfigReader
     public BetterLang(final String template, final String localised, final JavaPlugin plugin)
     {
         this(template, localised, plugin, false);
+    }
+
+    /**
+     * Easily manage localised language files
+     * The language template must be located in the /templates folder
+     * Any default language contents must be located in the /lang folder
+     * Logging is disabled
+     *
+     * @param template The name of the template in the /templates folder
+     * @param localised The name of the language file, located in the /lang folder
+     * @param validationHandler the validator that can autocorrect options, based on your provided settings
+     * @param plugin The relevant JavaPlugin
+     */
+    public BetterLang(final String template, final String localised, final ValidationHandler validationHandler, final JavaPlugin plugin)
+    {
+        this(template, localised, validationHandler, plugin, false);
     }
 
 
@@ -61,9 +98,25 @@ public class BetterLang implements IOptionalConfigReader
      */
     public BetterLang(final String template, final String localised, final JavaPlugin plugin, final boolean doLogging)
     {
+        this(template, localised, new ValidationHandler(), plugin, doLogging);
+    }
+
+    /**
+     * Easily manage localised language files
+     * The language template must be located in the /templates folder
+     * Any default language contents must be located in the /lang folder
+     *
+     * @param template The name of the template in the /templates folder
+     * @param localised The name of the language file, located in the /lang folder
+     * @param validationHandler the validator that can autocorrect options, based on your provided settings
+     * @param plugin The relevant JavaPlugin
+     * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
+     */
+    public BetterLang(final String template, final String localised, final ValidationHandler validationHandler, final JavaPlugin plugin, final boolean doLogging)
+    {
         BetterYaml betterYaml = null;
         try {
-            betterYaml = new BetterYaml(template, localised, "lang/", plugin, doLogging);
+            betterYaml = new BetterYaml(template, localised, "lang/", validationHandler, plugin, doLogging);
         } catch (IOException e) {
             e.printStackTrace();
         }
