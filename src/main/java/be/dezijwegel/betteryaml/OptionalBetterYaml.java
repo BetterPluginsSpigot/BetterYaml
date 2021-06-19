@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
+@SuppressWarnings({"unused", "deprecation"})
 public class OptionalBetterYaml implements IOptionalConfigReader
 {
 
@@ -27,7 +28,7 @@ public class OptionalBetterYaml implements IOptionalConfigReader
      * @param name the name of the config file eg. "ourConfig.yml"
      * @param plugin the JavaPlugin for which a file is copied
      */
-    public OptionalBetterYaml(String name, JavaPlugin plugin)
+    public OptionalBetterYaml(final String name, final JavaPlugin plugin)
     {
         this(name, plugin, false);
     }
@@ -44,7 +45,7 @@ public class OptionalBetterYaml implements IOptionalConfigReader
      * @param plugin the JavaPlugin for which a file is copied
      * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
      */
-    public OptionalBetterYaml(String name, JavaPlugin plugin, boolean doLogging)
+    public OptionalBetterYaml(final String name, final JavaPlugin plugin, final boolean doLogging)
     {
         BetterYaml betterYaml = null;
         try {
@@ -54,13 +55,10 @@ public class OptionalBetterYaml implements IOptionalConfigReader
         }
 
         // Any of these is null? Something went wrong -> empty!
-        if (betterYaml == null || betterYaml.getFile() == null || betterYaml.getYamlConfiguration() == null)
-        {
+        if (betterYaml == null || betterYaml.getFile() == null || betterYaml.getYamlConfiguration() == null) {
             this.file = null;
             this.yamlConfiguration = null;
-        }
-        else
-        {
+        } else {
             this.file = betterYaml.getFile();
             this.yamlConfiguration = betterYaml.getYamlConfiguration();
         }

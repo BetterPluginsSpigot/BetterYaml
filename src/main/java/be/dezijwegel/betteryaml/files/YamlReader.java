@@ -23,9 +23,9 @@ public class YamlReader
      * @param file the file to be read
      * @throws IOException when a stream cannot be created or the file does not exist
      */
-    public YamlReader(File file) throws IOException
+    public YamlReader(final File file) throws IOException
     {
-        this( new FileInputStream( file ) );
+        this(new FileInputStream(file));
     }
 
     /**
@@ -36,7 +36,7 @@ public class YamlReader
      * @param fis the InputStream to be read
      * @throws IOException when a stream cannot be created or the file does not exist
      */
-    public YamlReader(InputStream fis) throws IOException
+    public YamlReader(final InputStream fis) throws IOException
     {
         LoaderOptions loaderOptions = new LoaderOptions();
         loaderOptions.setAllowRecursiveKeys(true);
@@ -72,7 +72,7 @@ public class YamlReader
      * @param entry the key-value pair under consideration
      * @param path the previous path, to keep track of nested keys
      */
-    private void addRecursiveContents(Map.Entry<String, Object> entry, String path)
+    private void addRecursiveContents(final Map.Entry<String, Object> entry, final String path)
     {
         String key = entry.getKey();
         Object value = entry.getValue();
@@ -84,6 +84,7 @@ public class YamlReader
             @SuppressWarnings("unchecked")
             Map<String, Object> map = (Map<String, Object>) value;
             for (Map.Entry<String, Object> subEntry : map.entrySet())
+                // Recursive call.
                 addRecursiveContents( subEntry, newPath);
         }
         else

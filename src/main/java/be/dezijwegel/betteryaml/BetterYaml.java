@@ -20,8 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-;
-
+@SuppressWarnings({"unused"})
 public class BetterYaml implements IConfigReader
 {
 
@@ -41,7 +40,7 @@ public class BetterYaml implements IConfigReader
      * @throws IOException when your configuration is incorrect
      */
     @Deprecated
-    public BetterYaml(String name, JavaPlugin plugin) throws IOException
+    public BetterYaml(final String name, final JavaPlugin plugin) throws IOException
     {
         this(name, plugin, false);
     }
@@ -59,7 +58,7 @@ public class BetterYaml implements IConfigReader
      * @throws IOException when your configuration is incorrect
      */
     @Deprecated
-    public BetterYaml(String name, JavaPlugin plugin, boolean doLogging) throws IOException
+    public BetterYaml(final String name, final JavaPlugin plugin, final boolean doLogging) throws IOException
     {
         this(name, name, "", plugin, doLogging);
     }
@@ -81,7 +80,7 @@ public class BetterYaml implements IConfigReader
      */
     @Deprecated
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public BetterYaml(String template, String defaultValues, String defaultValuesPath, JavaPlugin plugin, boolean doLogging) throws IOException
+    public BetterYaml(final String template, final String defaultValues, final String defaultValuesPath, final JavaPlugin plugin, final boolean doLogging) throws IOException
     {
 
         // Create plugin folder if it does not exist
@@ -93,8 +92,8 @@ public class BetterYaml implements IConfigReader
         // Copy temp files
         //
 
-        TempFileCopier defaultCopy = new TempFileCopier( plugin, defaultValuesPath, defaultValues, "temp" + File.separator );
-        TempFileCopier templateCopy = new TempFileCopier( plugin, "templates/", template, "temp" + File.separator + "templates" + File.separator);
+        TempFileCopier defaultCopy = new TempFileCopier(plugin, defaultValuesPath, defaultValues, "temp" + File.separator);
+        TempFileCopier templateCopy = new TempFileCopier(plugin, "templates/", template, "temp" + File.separator + "templates" + File.separator);
 
 
         //

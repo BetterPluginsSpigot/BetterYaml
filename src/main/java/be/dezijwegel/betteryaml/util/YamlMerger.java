@@ -3,7 +3,8 @@ package be.dezijwegel.betteryaml.util;
 import java.util.HashMap;
 import java.util.Map;
 
-public class YamlMerger {
+public class YamlMerger
+{
 
 
     private final Map<String, Object> defaultOptions;
@@ -13,7 +14,7 @@ public class YamlMerger {
      *
      * @param defaultOptions the default key-value pairs, to be used when no others are available
      */
-    public YamlMerger(Map<String, Object> defaultOptions)
+    public YamlMerger(final Map<String, Object> defaultOptions)
     {
         this.defaultOptions = defaultOptions;
     }
@@ -27,7 +28,7 @@ public class YamlMerger {
      * @param options the options to be merged with all default values
      * @return the merged Map
      */
-    public Map<String, Object> merge(Map<String, Object> options)
+    public Map<String, Object> merge(final Map<String, Object> options)
     {
         Map<String, Object> mergedMap = new HashMap<>();
 
@@ -40,5 +41,4 @@ public class YamlMerger {
 
         return mergedMap;
     }
-
 }

@@ -6,9 +6,6 @@ import java.io.File;
 
 public interface IConfigReader
 {
-
     File getFile();
-
     YamlConfiguration getYamlConfiguration();
-
 }
