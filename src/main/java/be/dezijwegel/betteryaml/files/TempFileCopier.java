@@ -7,7 +7,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-public class TempFileCopier {
+public class TempFileCopier
+{
 
     private final File copiedFile;
 
@@ -22,7 +23,8 @@ public class TempFileCopier {
      * @param path the path that specifies the folder to copy to. MUST end with a forward slash, but none in front eg. subfolder/
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public TempFileCopier(final @NotNull Plugin plugin, final String resourcePath, final String fileName, final String path) throws IOException {
+    public TempFileCopier(final @NotNull Plugin plugin, final String resourcePath, final String fileName, final String path) throws IOException
+    {
 
         BufferedReader defaultReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(plugin.getResource(resourcePath + fileName)), StandardCharsets.UTF_8));
         String tempPath = plugin.getDataFolder() + File.separator + path;
@@ -31,7 +33,8 @@ public class TempFileCopier {
 
         FileWriter fileWriter = new FileWriter(tempPath + fileName);
         BufferedWriter tempWriter = new BufferedWriter(fileWriter);
-        while (defaultReader.ready()) {
+        while (defaultReader.ready())
+        {
             String line = defaultReader.readLine();
             tempWriter.write(line);
             tempWriter.newLine();
@@ -48,7 +51,8 @@ public class TempFileCopier {
      * Delete the copied file
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void deleteCopiedFile() {
+    public void deleteCopiedFile()
+    {
         this.copiedFile.delete();
     }
 

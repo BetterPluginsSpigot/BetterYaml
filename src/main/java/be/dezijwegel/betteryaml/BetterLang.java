@@ -11,7 +11,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @SuppressWarnings({"unused", "deprecation"})
-public class BetterLang implements IOptionalConfigReader {
+public class BetterLang implements IOptionalConfigReader
+{
 
     private final File file;
     private final YamlConfiguration yamlConfiguration;
@@ -25,7 +26,8 @@ public class BetterLang implements IOptionalConfigReader {
      * @param name The name of the language (/lang) file, which is equal to the name of the template in the templates folder
      * @param plugin The relevant JavaPlugin
      */
-    public BetterLang(final String name, final JavaPlugin plugin) {
+    public BetterLang(final String name, final JavaPlugin plugin)
+    {
         this(name, name, plugin, false);
     }
 
@@ -40,7 +42,8 @@ public class BetterLang implements IOptionalConfigReader {
      * @param localised The name of the language file, located in the /lang folder
      * @param plugin The relevant JavaPlugin
      */
-    public BetterLang(final String template, final String localised, final JavaPlugin plugin) {
+    public BetterLang(final String template, final String localised, final JavaPlugin plugin)
+    {
         this(template, localised, plugin, false);
     }
 
@@ -55,7 +58,8 @@ public class BetterLang implements IOptionalConfigReader {
      * @param plugin The relevant JavaPlugin
      * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
      */
-    public BetterLang(final String template, final String localised, final JavaPlugin plugin, final boolean doLogging) {
+    public BetterLang(final String template, final String localised, final JavaPlugin plugin, final boolean doLogging)
+    {
         BetterYaml betterYaml = null;
         try {
             betterYaml = new BetterYaml(template, localised, "lang/", plugin, doLogging);
@@ -80,7 +84,8 @@ public class BetterLang implements IOptionalConfigReader {
      *
      * @return an optional file, never null. But no value will be present if an Exception was thrown while reading the configuration
      */
-    public Optional<File> getFile() {
+    public Optional<File> getFile()
+    {
         return file != null ? Optional.of( file ) : Optional.empty();
     }
 
@@ -92,7 +97,8 @@ public class BetterLang implements IOptionalConfigReader {
      *
      * @return an optional YamlConfiguration, never null. But no value will be present if an Exception was thrown while reading the configuration
      */
-    public Optional<YamlConfiguration> getYamlConfiguration() {
+    public Optional<YamlConfiguration> getYamlConfiguration()
+    {
         return yamlConfiguration != null ? Optional.of( yamlConfiguration ) : Optional.empty();
     }
 
@@ -102,7 +108,8 @@ public class BetterLang implements IOptionalConfigReader {
      *
      * @return a Map that may, or may not contain the mapping of keys to messages
      */
-    public Map<String, String> getMessages() {
+    public Map<String, String> getMessages()
+    {
         final Map<String, String> values = new HashMap<>();
 
         if (this.yamlConfiguration == null)

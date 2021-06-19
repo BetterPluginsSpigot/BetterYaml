@@ -6,7 +6,8 @@ import java.io.File;
 import java.util.Optional;
 
 @SuppressWarnings({"unused"})
-public interface IOptionalConfigReader {
+public interface IOptionalConfigReader
+{
     Optional<File> getFile();
     Optional<YamlConfiguration> getYamlConfiguration();
 }
