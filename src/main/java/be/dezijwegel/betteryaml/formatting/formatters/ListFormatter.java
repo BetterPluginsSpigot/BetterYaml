@@ -8,7 +8,7 @@ public class ListFormatter implements IFormatter
 {
 
     @Override
-    public String format(Object o, String serialised)
+    public String format(final Object o, final String serialised)
     {
         if ( !(o instanceof List))
             return serialised;

@@ -26,13 +26,14 @@ public class CustomFormatter
      * @param formatter the formatter we want to use for this type
      * @return the CustomFormatter object, this allows chaining to achieve a builder-pattern-like behaviour
      */
-    public CustomFormatter addFormatter(Class<?> type, IFormatter formatter)
+    @SuppressWarnings("unused")
+    public CustomFormatter addFormatter(final Class<?> type, final IFormatter formatter)
     {
         this.formatterMap.put(type, formatter);
         return this;
     }
 
-    public String format(Object o, String serialised)
+    public String format(final Object o, final String serialised)
     {
         if ( ! formatterMap.containsKey( o.getClass() ))
             return serialised;

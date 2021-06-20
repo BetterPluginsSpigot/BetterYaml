@@ -48,7 +48,6 @@ public class StringWhiteList extends Validator
             return defaultValue;
 
         String value = (String) o;
-        String returnValue;
         if (allowedValues.contains( value ))
         {
             return value;
