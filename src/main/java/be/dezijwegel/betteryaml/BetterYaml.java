@@ -102,7 +102,6 @@ public class BetterYaml implements IConfigReader
      * @throws IOException when your configuration is incorrect
      */
     @Deprecated
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public BetterYaml(final String template, final String defaultValues, final String defaultValuesPath, final JavaPlugin plugin, final boolean doLogging) throws IOException
     {
         this(template, defaultValues, defaultValuesPath, new ValidationHandler(), plugin, doLogging);

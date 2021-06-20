@@ -6,8 +6,6 @@ import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
-import java.util.List;
-
 public class CustomRepresenter extends Representer
 {
 
