@@ -2,12 +2,13 @@ package be.dezijwegel.betteryaml.validation.validator.numeric;
 
 import be.dezijwegel.betteryaml.util.NumbersUtil;
 import be.dezijwegel.betteryaml.validation.validator.Validator;
+import lombok.var;
 import org.jetbrains.annotations.NotNull;
 
 public class Max extends Validator
 {
 
-    private final Number max;
+    private final @NotNull Number max;
 
     /**
      * Provide a maximum value for this setting
@@ -22,12 +23,12 @@ public class Max extends Validator
     }
 
     @Override
-    public Object validate(@NotNull Object o)
+    public @NotNull Object validate(@NotNull Object o)
     {
         if ( !(o instanceof Number) )
             return max;
 
-        Number num = (Number) o;
+        var num = (Number) o;
         return NumbersUtil.compare(num, max) > 0 ? max : num;
     }
 }

@@ -7,6 +7,7 @@ import java.io.File;
 /**
  * An interface for Config Reading
  */
+@SuppressWarnings("unused")
 public interface IConfigReader
 {
     File getFile();

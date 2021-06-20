@@ -1,5 +1,8 @@
 package be.dezijwegel.betteryaml.util;
 
+import lombok.var;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,14 +31,14 @@ public class YamlMerger
      * @param options the options to be merged with all default values
      * @return the merged Map
      */
-    public Map<String, Object> merge(final Map<String, Object> options)
+    public @NotNull Map<String, Object> merge(final @NotNull Map<String, Object> options)
     {
         Map<String, Object> mergedMap = new HashMap<>();
 
         for (Map.Entry<String, Object> entry : defaultOptions.entrySet())
         {
-            String key = entry.getKey();
-            Object value = options.containsKey( key ) ? options.get( key ) : entry.getValue();
+            var key = entry.getKey();
+            var value = options.containsKey(key) ? options.get(key) : entry.getValue();
             mergedMap.put( key, value );
         }
 

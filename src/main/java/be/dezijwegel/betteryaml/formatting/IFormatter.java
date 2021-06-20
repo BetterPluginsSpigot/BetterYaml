@@ -1,8 +1,10 @@
 package be.dezijwegel.betteryaml.formatting;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface IFormatter
 {
 
-    String format(Object o, String serialised);
+    @NotNull String format(Object o, String serialised);
 
 }

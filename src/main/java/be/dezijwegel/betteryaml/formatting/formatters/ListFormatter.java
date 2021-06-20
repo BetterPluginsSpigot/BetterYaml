@@ -1,6 +1,8 @@
 package be.dezijwegel.betteryaml.formatting.formatters;
 
 import be.dezijwegel.betteryaml.formatting.IFormatter;
+import lombok.var;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -8,15 +10,15 @@ public class ListFormatter implements IFormatter
 {
 
     @Override
-    public String format(final Object o, final String serialised)
+    public @NotNull String format(final Object o, final @NotNull String serialised)
     {
         if ( !(o instanceof List))
             return serialised;
 
-        StringBuilder formatted = new StringBuilder("\n");
+        var formatted = new StringBuilder("\n");
 
-        String[] entries = serialised.split("\\r?\\n");
-        for (String entry : entries)
+        var entries = serialised.split("\\r?\\n");
+        for (var entry : entries)
         {
             formatted.append("  ");
             formatted.append(entry);

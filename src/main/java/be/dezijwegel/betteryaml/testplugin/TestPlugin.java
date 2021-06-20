@@ -6,7 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class TestPlugin extends JavaPlugin
 {
 
-    @Override
+    @Override @SuppressWarnings("unused")
     public void onEnable()
     {
         super.onEnable();

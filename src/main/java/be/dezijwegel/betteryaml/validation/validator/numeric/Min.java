@@ -2,11 +2,12 @@ package be.dezijwegel.betteryaml.validation.validator.numeric;
 
 import be.dezijwegel.betteryaml.util.NumbersUtil;
 import be.dezijwegel.betteryaml.validation.validator.Validator;
+import lombok.var;
 import org.jetbrains.annotations.NotNull;
 
 public class Min extends Validator
 {
-    private final Number min;
+    private final @NotNull Number min;
 
     /**
      * Provide a minimum value for this setting
@@ -21,12 +22,12 @@ public class Min extends Validator
     }
 
     @Override
-    public Object validate(@NotNull Object o)
+    public @NotNull Object validate(@NotNull Object o)
     {
         if ( !(o instanceof Number) )
             return min;
 
-        Number num = (Number) o;
+        var num = (Number) o;
         return NumbersUtil.compare(num, min) < 0 ? min : num;
     }
 }

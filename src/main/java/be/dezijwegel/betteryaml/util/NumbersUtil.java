@@ -1,8 +1,12 @@
 package be.dezijwegel.betteryaml.util;
 
+import lombok.experimental.UtilityClass;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Numbers util.
  */
+@UtilityClass
 public class NumbersUtil
 {
 
@@ -12,7 +16,7 @@ public class NumbersUtil
      * @param n1 the number one long value.
      * @param n2 the number two long value.
      */
-    public static int compare(final Number n1, final Number n2)
+    public static int compare(final @NotNull Number n1, final @NotNull Number n2)
     {
         long l1 = n1.longValue();
         long l2 = n2.longValue();

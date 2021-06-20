@@ -11,8 +11,8 @@ public class StringWhiteList extends Validator
 {
 
     private final boolean ignoreCase;
-    private final String defaultValue;
-    private final Set<String> allowedValues;
+    private final @NotNull String defaultValue;
+    private final @NotNull Set<String> allowedValues;
 
     /**
      * Provide a list of strings that are allowed for this setting and a default value
@@ -23,7 +23,7 @@ public class StringWhiteList extends Validator
      * @param ignoreCase whether upper/lowercase matters
      * @param allowedValue zero, one, or more allowed values (all other inputs are blacklisted)
      */
-    public StringWhiteList(@NotNull String defaultValue, boolean ignoreCase, String... allowedValue)
+    public StringWhiteList(@NotNull String defaultValue, boolean ignoreCase, String @NotNull ... allowedValue)
     {
         this.defaultValue = defaultValue;
         this.ignoreCase = ignoreCase;
@@ -42,7 +42,7 @@ public class StringWhiteList extends Validator
     }
 
     @Override
-    public Object validate(@NotNull Object o)
+    public @NotNull Object validate(@NotNull Object o)
     {
         if ( ! (o instanceof String) )
             return defaultValue;

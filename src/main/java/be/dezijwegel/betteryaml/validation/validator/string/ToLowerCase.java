@@ -12,7 +12,7 @@ public class ToLowerCase extends Validator
     public ToLowerCase() {}
 
     @Override
-    public Object validate(@NotNull Object o)
+    public @NotNull Object validate(@NotNull Object o)
     {
         if ( !(o instanceof String) )
             return "";

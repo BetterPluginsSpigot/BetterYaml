@@ -1,5 +1,6 @@
 package be.dezijwegel.betteryaml.representer;
 
+import lombok.var;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -21,7 +22,7 @@ public class CustomRepresenter extends Representer
     {
         public Node representData(Object data)
         {
-            String string = (String) data;
+            var string = (String) data;
             return representScalar(Tag.STR, string, DumperOptions.ScalarStyle.DOUBLE_QUOTED);
         }
     }

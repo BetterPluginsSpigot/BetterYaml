@@ -1,6 +1,7 @@
 package validation.validator.string;
 
 import be.dezijwegel.betteryaml.validation.validator.string.StringWhiteList;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ public class TestStringWhiteList
         stringWhiteList = new StringWhiteList(defaultValue, true, "default", "allowed", "string");
     }
 
-    private String validateString(String validate) throws Exception
+    private @NotNull String validateString(@NotNull String validate) throws Exception
     {
         Object result = stringWhiteList.validate( validate );
         if (result instanceof String)

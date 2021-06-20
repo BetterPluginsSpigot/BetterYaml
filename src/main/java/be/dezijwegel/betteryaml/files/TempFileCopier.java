@@ -1,5 +1,6 @@
 package be.dezijwegel.betteryaml.files;
 
+import lombok.var;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ import java.util.Objects;
 public class TempFileCopier
 {
 
-    private final File copiedFile;
+    private final @NotNull File copiedFile;
 
     /**
      * Copy the specified file to a relative location of the plugins config folder
@@ -31,16 +32,16 @@ public class TempFileCopier
     public TempFileCopier(final @NotNull Plugin plugin, final String resourcePath, final String fileName, final String path) throws IOException
     {
 
-        BufferedReader defaultReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(plugin.getResource(resourcePath + fileName)), StandardCharsets.UTF_8));
-        String tempPath = plugin.getDataFolder() + File.separator + path;
-        File tempFolder = new File(tempPath);
+        var defaultReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(plugin.getResource(resourcePath + fileName)), StandardCharsets.UTF_8));
+        var tempPath = plugin.getDataFolder() + File.separator + path;
+        var tempFolder = new File(tempPath);
         tempFolder.mkdir();
 
-        FileWriter fileWriter = new FileWriter(tempPath + fileName);
-        BufferedWriter tempWriter = new BufferedWriter(fileWriter);
+        var fileWriter = new FileWriter(tempPath + fileName);
+        var tempWriter = new BufferedWriter(fileWriter);
         while (defaultReader.ready())
         {
-            String line = defaultReader.readLine();
+            var line = defaultReader.readLine();
             tempWriter.write(line);
             tempWriter.newLine();
         }

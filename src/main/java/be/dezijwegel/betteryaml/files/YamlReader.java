@@ -1,5 +1,7 @@
 package be.dezijwegel.betteryaml.files;
 
+import lombok.var;
+import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -23,7 +25,7 @@ public class YamlReader
      * @param file the file to be read
      * @throws IOException when a stream cannot be created or the file does not exist
      */
-    public YamlReader(final File file) throws IOException
+    public YamlReader(final @NotNull File file) throws IOException
     {
         this(new FileInputStream(file));
     }
@@ -36,11 +38,11 @@ public class YamlReader
      * @param fis the InputStream to be read
      * @throws IOException when a stream cannot be created or the file does not exist
      */
-    public YamlReader(final InputStream fis) throws IOException
+    public YamlReader(final @NotNull InputStream fis) throws IOException
     {
-        LoaderOptions loaderOptions = new LoaderOptions();
+        var loaderOptions = new LoaderOptions();
         loaderOptions.setAllowRecursiveKeys(true);
-        Yaml yaml = new Yaml(loaderOptions);
+        var yaml = new Yaml(loaderOptions);
         Map<String, Object> temp = yaml.load(fis);
         Map<String, Object> yamlContent = temp != null ? temp : new HashMap<>();
 
@@ -59,7 +61,7 @@ public class YamlReader
      *
      * @return all keys and their mapped values from within the file
      */
-    public Map<String, Object> getContents()
+    public @NotNull Map<String, Object> getContents()
     {
         return this.contents;
     }
@@ -72,12 +74,12 @@ public class YamlReader
      * @param entry the key-value pair under consideration
      * @param path the previous path, to keep track of nested keys
      */
-    private void addRecursiveContents(final Map.Entry<String, Object> entry, final String path)
+    private void addRecursiveContents(final Map.@NotNull Entry<String, Object> entry, final @NotNull String path)
     {
-        String key = entry.getKey();
-        Object value = entry.getValue();
+        var key = entry.getKey();
+        var value = entry.getValue();
 
-        final String newPath = path.equals("") ? key : path + "." + key;
+        final var newPath = path.equals("") ? key : path + "." + key;
 
         if (value instanceof Map)
         {

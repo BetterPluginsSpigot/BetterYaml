@@ -9,7 +9,7 @@ import java.util.List;
 public class ChainedValidator extends Validator
 {
 
-    private final List<Validator> validators;
+    private final @NotNull List<Validator> validators;
 
     /**
      * This allows multiple validators to be used on one field
@@ -23,7 +23,7 @@ public class ChainedValidator extends Validator
     }
 
     @Override
-    public Object validate(@NotNull Object o)
+    public @NotNull Object validate(@NotNull Object o)
     {
         for (Validator validator : validators)
             o = validator.validate(o);

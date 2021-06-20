@@ -4,6 +4,8 @@ import be.dezijwegel.betteryaml.interfaces.IOptionalConfigReader;
 import be.dezijwegel.betteryaml.validation.ValidationHandler;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,8 +19,8 @@ public class OptionalBetterYaml implements IOptionalConfigReader
 {
 
 
-    private final File file;
-    private final YamlConfiguration yamlConfiguration;
+    private final @Nullable File file;
+    private final @Nullable YamlConfiguration yamlConfiguration;
 
 
     /**
@@ -32,7 +34,7 @@ public class OptionalBetterYaml implements IOptionalConfigReader
      * @param name the name of the config file eg. "ourConfig.yml"
      * @param plugin the JavaPlugin for which a file is copied
      */
-    public OptionalBetterYaml(final String name, final JavaPlugin plugin)
+    public OptionalBetterYaml(final @NotNull String name, final @NotNull JavaPlugin plugin)
     {
         this(name, plugin, false);
     }
@@ -50,7 +52,7 @@ public class OptionalBetterYaml implements IOptionalConfigReader
      * @param validationHandler the validator that can autocorrect options, based on your provided settings
      * @param plugin the JavaPlugin for which a file is copied
      */
-    public OptionalBetterYaml(final String name, final ValidationHandler validationHandler, final JavaPlugin plugin)
+    public OptionalBetterYaml(final @NotNull String name, final @NotNull ValidationHandler validationHandler, final @NotNull JavaPlugin plugin)
     {
         this(name, validationHandler, plugin, false);
     }
@@ -67,7 +69,7 @@ public class OptionalBetterYaml implements IOptionalConfigReader
      * @param plugin the JavaPlugin for which a file is copied
      * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
      */
-    public OptionalBetterYaml(final String name, final JavaPlugin plugin, final boolean doLogging)
+    public OptionalBetterYaml(final @NotNull String name, final @NotNull JavaPlugin plugin, final boolean doLogging)
     {
         this(name, new ValidationHandler(), plugin, doLogging);
     }
@@ -85,7 +87,7 @@ public class OptionalBetterYaml implements IOptionalConfigReader
      * @param plugin the JavaPlugin for which a file is copied
      * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
      */
-    public OptionalBetterYaml(final String name, final ValidationHandler validationHandler, final JavaPlugin plugin, final boolean doLogging)
+    public OptionalBetterYaml(final @NotNull String name, final @NotNull ValidationHandler validationHandler, final @NotNull JavaPlugin plugin, final boolean doLogging)
     {
         BetterYaml betterYaml = null;
         try {
@@ -95,7 +97,7 @@ public class OptionalBetterYaml implements IOptionalConfigReader
         }
 
         // Any of these is null? Something went wrong -> empty!
-        if (betterYaml == null || betterYaml.getFile() == null || betterYaml.getYamlConfiguration() == null) {
+        if (betterYaml == null) {
             this.file = null;
             this.yamlConfiguration = null;
         } else {
@@ -112,7 +114,7 @@ public class OptionalBetterYaml implements IOptionalConfigReader
      *
      * @return an optional file, never null. But no value will be present if an Exception was thrown while reading the configuration
      */
-    public Optional<File> getFile()
+    public @NotNull Optional<File> getFile()
     {
         return file != null ? Optional.of( file ) : Optional.empty();
     }
@@ -125,7 +127,7 @@ public class OptionalBetterYaml implements IOptionalConfigReader
      *
      * @return an optional YamlConfiguration, never null. But no value will be present if an Exception was thrown while reading the configuration
      */
-    public Optional<YamlConfiguration> getYamlConfiguration()
+    public @NotNull Optional<YamlConfiguration> getYamlConfiguration()
     {
         return yamlConfiguration != null ? Optional.of( yamlConfiguration ) : Optional.empty();
     }

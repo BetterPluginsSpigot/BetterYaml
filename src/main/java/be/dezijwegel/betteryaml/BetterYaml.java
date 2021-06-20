@@ -7,10 +7,12 @@ import be.dezijwegel.betteryaml.interfaces.IConfigReader;
 import be.dezijwegel.betteryaml.representer.CustomRepresenter;
 import be.dezijwegel.betteryaml.util.YamlMerger;
 import be.dezijwegel.betteryaml.validation.ValidationHandler;
+import lombok.var;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -28,8 +30,8 @@ import java.util.Map;
 public class BetterYaml implements IConfigReader
 {
 
-    private final File file;
-    private final YamlConfiguration yamlConfiguration;
+    private final @NotNull File file;
+    private final @NotNull YamlConfiguration yamlConfiguration;
 
     /**
      * Creates a BetterYaml instance that will handle your config files
@@ -44,7 +46,7 @@ public class BetterYaml implements IConfigReader
      * @throws IOException when your configuration is incorrect
      */
     @Deprecated
-    public BetterYaml(final String name, final JavaPlugin plugin) throws IOException
+    public BetterYaml(final @NotNull String name, final @NotNull JavaPlugin plugin) throws IOException
     {
         this(name, plugin, false);
     }
@@ -62,7 +64,7 @@ public class BetterYaml implements IConfigReader
      * @throws IOException when your configuration is incorrect
      */
     @Deprecated
-    public BetterYaml(final String name, final JavaPlugin plugin, final boolean doLogging) throws IOException
+    public BetterYaml(final @NotNull String name, final @NotNull JavaPlugin plugin, final boolean doLogging) throws IOException
     {
         this(name, name, "", plugin, doLogging);
     }
@@ -80,10 +82,11 @@ public class BetterYaml implements IConfigReader
      * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
      * @throws IOException when your configuration is incorrect
      */
+    @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
-    public BetterYaml(final String name, final ValidationHandler validationHandler, final JavaPlugin plugin, final boolean doLogging) throws IOException
+    public BetterYaml(final @NotNull String name, final @NotNull ValidationHandler handler, final @NotNull JavaPlugin plugin, final boolean doLogging) throws IOException
     {
-        this(name, name, "", validationHandler, plugin, doLogging);
+        this(name, name, "", handler, plugin, doLogging);
     }
 
 
@@ -95,16 +98,16 @@ public class BetterYaml implements IConfigReader
      * This constructor enables you to alter the desired path structure, so only use it when you know what you are doing!
      *
      * @param template the name of the template/live config file eg. "ourConfig.yml"
-     * @param defaultValues the name of the config file that contains the default values
-     * @param defaultValuesPath the path to the default resource (ending on a /)
+     * @param values the name of the config file that contains the default values
+     * @param valuesPath the path to the default resource (ending on a /)
      * @param plugin the JavaPlugin for which a file is copied
      * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
      * @throws IOException when your configuration is incorrect
      */
     @Deprecated
-    public BetterYaml(final String template, final String defaultValues, final String defaultValuesPath, final JavaPlugin plugin, final boolean doLogging) throws IOException
+    public BetterYaml(final @NotNull String template, final @NotNull String values, final String valuesPath, final @NotNull JavaPlugin plugin, final boolean doLogging) throws IOException
     {
-        this(template, defaultValues, defaultValuesPath, new ValidationHandler(), plugin, doLogging);
+        this(template, values, valuesPath, new ValidationHandler(), plugin, doLogging);
     }
 
     /**
@@ -115,20 +118,20 @@ public class BetterYaml implements IConfigReader
      * This constructor enables you to alter the desired path structure, so only use it when you know what you are doing!
      *
      * @param template the name of the template/live config file eg. "ourConfig.yml"
-     * @param defaultValues the name of the config file that contains the default values
-     * @param defaultValuesPath the path to the default resource (ending on a /)
-     * @param validationHandler the validator that can autocorrect options, based on your provided settings
+     * @param values the name of the config file that contains the default values
+     * @param valuesPath the path to the default resource (ending on a /)
+     * @param handler the validator that can autocorrect options, based on your provided settings
      * @param plugin the JavaPlugin for which a file is copied
      * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
      * @throws IOException when your configuration is incorrect
      */
     @Deprecated
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public BetterYaml(final String template, final String defaultValues, final String defaultValuesPath, final ValidationHandler validationHandler, final JavaPlugin plugin, final boolean doLogging) throws IOException
+    @SuppressWarnings({"ResultOfMethodCallIgnored", "DeprecatedIsStillUsed"})
+    public BetterYaml(final @NotNull String template, final @NotNull String values, final String valuesPath, final @NotNull ValidationHandler handler, final @NotNull JavaPlugin plugin, final boolean doLogging) throws IOException
     {
 
         // Create plugin folder if it does not exist
-        File folder = plugin.getDataFolder();
+        var folder = plugin.getDataFolder();
         if (!folder.exists())
             folder.mkdir();
 
@@ -136,8 +139,8 @@ public class BetterYaml implements IConfigReader
         // Copy temp files
         //
 
-        TempFileCopier defaultCopy = new TempFileCopier(plugin, defaultValuesPath, defaultValues, "temp" + File.separator);
-        TempFileCopier templateCopy = new TempFileCopier(plugin, "templates/", template, "temp" + File.separator + "templates" + File.separator);
+        var defaultCopy = new TempFileCopier(plugin, valuesPath, values, "temp" + File.separator);
+        var templateCopy = new TempFileCopier(plugin, "templates/", template, "temp" + File.separator + "templates" + File.separator);
 
 
         //
@@ -146,7 +149,7 @@ public class BetterYaml implements IConfigReader
 
 
         // Get config options on the live server
-        File liveConfig = new File(plugin.getDataFolder(), template);
+        var liveConfig = new File(plugin.getDataFolder(), template);
         Map<String, Object> liveContents;
         if (liveConfig.exists())
             liveContents = new YamlReader(liveConfig).getContents();
@@ -157,15 +160,15 @@ public class BetterYaml implements IConfigReader
         }
 
         // Get config with default values
-        File defaultFile = new File(plugin.getDataFolder() + File.separator + "temp", defaultValues);
-        Map<String, Object> defaultContents = new YamlReader( defaultFile ).getContents();
+        var defaultFile = new File(plugin.getDataFolder() + File.separator + "temp", values);
+        var defaultContents = new YamlReader(defaultFile).getContents();
 
         // Merge live and default values
-        YamlMerger merger = new YamlMerger( defaultContents );
-        Map<String, Object> newContents = merger.merge( liveContents );
+        var merger = new YamlMerger( defaultContents );
+        var newContents = merger.merge(liveContents);
 
         // Validate the configuration
-        newContents = validationHandler.validateConfiguration(newContents);
+        newContents = handler.validateConfiguration(newContents);
 
         if (doLogging)
         {
@@ -184,35 +187,35 @@ public class BetterYaml implements IConfigReader
 
 
         // Prepare file writer and template reader
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get( plugin.getDataFolder() + File.separator + template ));
-        BufferedReader reader = new BufferedReader( new FileReader(plugin.getDataFolder() + File.separator + "temp/templates/" + template) );
+        var writer = Files.newBufferedWriter(Paths.get( plugin.getDataFolder() + File.separator + template ));
+        var reader = new BufferedReader( new FileReader(plugin.getDataFolder() + File.separator + "temp/templates/" + template) );
 
         // Prepare YAMLSnake
-        DumperOptions options = new DumperOptions();
+        var options = new DumperOptions();
         options.setWidth(750);
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        Yaml yaml = new Yaml(new CustomRepresenter(), options);
+        var yaml = new Yaml(new CustomRepresenter(), options);
 
         // This formatter fixes resulting strings that could break YAML
-        CustomFormatter formatter = new CustomFormatter();
+        var formatter = new CustomFormatter();
 
         // Go through the template and replace all placeholders
         String line;
         while ((line = reader.readLine()) != null) {
 
             // Replace placeholders
-            String[] replaceThis = StringUtils.substringsBetween(line, "{", "}");
+            var replaceThis = StringUtils.substringsBetween(line, "{", "}");
             if (replaceThis != null)
             {
-                for (String tag : replaceThis)
+                for (var tag : replaceThis)
                 {
-                    if ( newContents.containsKey( tag ) )
+                    if (newContents.containsKey(tag))
                     {
-                        String placeholder = "{" + tag + "}";
+                        var placeholder = "{" + tag + "}";
 
                         // Parse the value
-                        Object value = newContents.get( tag );
-                        String dumped = yaml.dump( value );
+                        var value = newContents.get(tag);
+                        var dumped = yaml.dump(value);
 
                         // Remove newline
                         dumped = dumped.substring(0, dumped.length() - 1);
@@ -249,18 +252,18 @@ public class BetterYaml implements IConfigReader
         // Read final config contents
         //
 
-        File file = new File(plugin.getDataFolder() + File.separator + template);
+        var file = new File(plugin.getDataFolder() + File.separator + template);
         this.file = file;
         this.yamlConfiguration = YamlConfiguration.loadConfiguration( file );
     }
 
 
-    public File getFile()
+    public @NotNull File getFile()
     {
         return this.file;
     }
 
-    public YamlConfiguration getYamlConfiguration()
+    public @NotNull YamlConfiguration getYamlConfiguration()
     {
         return this.yamlConfiguration;
     }

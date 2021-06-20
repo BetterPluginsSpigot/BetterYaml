@@ -7,7 +7,7 @@
 
     <groupId>be.dezijwegel.betteryaml</groupId>
     <artifactId>betteryaml</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 
 
     <properties>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
+            <version>16.0.1</version> <!-- "LATEST" version is deprecated -->
             <scope>compile</scope>
         </dependency>
 
@@ -68,6 +68,14 @@
             <artifactId>maven-javadoc-plugin</artifactId>
             <version>3.3.0</version>
             <type>maven-plugin</type>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

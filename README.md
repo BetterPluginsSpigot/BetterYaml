@@ -8,7 +8,7 @@ This tool is written specifically for Spigot plugins but may be adapted to work 
 We advise using a Maven project for easy dependency management.
 
 ## What can BetterYaml do?
-BetterYaml uses a template file to handle your config files, this allows you to **change comments or config contents very easily** (adding or removing options) between plugin updates. It also supports fixing faulty configurations (eg. specify minimum/maximum values and never get values outside of this range).
+BetterYaml uses a template file to handle your config files, this allows you to **change comments or config contents very easily** (adding or removing options) between plugin updates. It also supports fixing faulty configurations (eg. specify minimum/maximum values and never get values outside this range).
 A very important detail in this process is that _**all server settings will remain intact**_!
 The best part of this that this is all handled **automatically**! You only need to provide the correct files and make an instance of BetterYaml. After this, you can retrieve a `YamlConfiguration` and do your regular config reading.
 It will make sure that the server's config file is **always up to date**.
@@ -30,7 +30,7 @@ custom_name: "Steve"
 ```
 </details>
 
-Imagine a user has changed free_pizza to false on their server and they removed the first few lines of comments.
+Imagine a user has changed free_pizza to false on their server, and they removed the first few lines of comments.
 <details>
 <summary>User's changed config</summary>
 
@@ -42,8 +42,8 @@ custom_name: "Steve"
 ```
 </details>
 
-However, after release you notice a mistake in your comments (you mentioned 'free hot dogs' instead of pizza), you want to remove the custom_name option as it is no longer supported and you want to introduce a new option max_free_pizzas.
-Usually this would be a hassle, but with BetterYaml you can easily change your template without altering the server's settings. Simply update the template and default values and you're good to go.
+However, after release you notice a mistake in your comments (you mentioned 'free hot dogs' instead of pizza), you want to remove the custom_name option as it is no longer supported, and you want to introduce a new option max_free_pizzas.
+Usually this would be a hassle, but with BetterYaml you can easily change your template without altering the server's settings. Simply update the template and default values, and you're good to go.
 After changing the right files and releasing a new update, your users will get the correct config file right away.
 This is the new default file you have in mind:
 <details>
