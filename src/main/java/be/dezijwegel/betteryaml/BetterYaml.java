@@ -1,6 +1,5 @@
 package be.dezijwegel.betteryaml;
 
-import be.dezijwegel.betteryaml.files.OptionalReader;
 import be.dezijwegel.betteryaml.files.TempFileCopier;
 import be.dezijwegel.betteryaml.files.YamlReader;
 import be.dezijwegel.betteryaml.formatting.CustomFormatter;
@@ -156,23 +155,13 @@ public class BetterYaml implements IConfigReader
         {
             if (doLogging)
                 plugin.getLogger().info(ChatColor.GREEN + "Copying a new " + template + "...");
-            liveContents = new HashMap<>();
+            // Copy optional values to the live config
+            liveContents = new HashMap<>(validationHandler.getDefaultOptionalMap());
         }
 
         // Get config with default values
         File defaultFile = new File(plugin.getDataFolder() + File.separator + "temp", defaultValues);
         Map<String, Object> defaultContents = new YamlReader( defaultFile ).getContents();
-
-        // Remove optional values from the default contents
-        for (String path : defaultContents.keySet())
-        {
-            if (validationHandler.isOptionalPath( path ))
-            {
-                defaultContents.remove( path );
-            }
-        }
-
-        
 
         // Validate the configurations (validate both to properly handle optional paths)
         defaultContents = validationHandler.validateConfiguration( defaultContents );
@@ -215,9 +204,6 @@ public class BetterYaml implements IConfigReader
         String line;
         while ((line = reader.readLine()) != null)
         {
-
-            boolean doWriteLine = true;
-
             // Replace placeholders
             String[] replaceThis = StringUtils.substringsBetween(line, "{", "}");
             if (replaceThis != null)
@@ -241,21 +227,25 @@ public class BetterYaml implements IConfigReader
                         // Write the new value
                         line = line.replace( placeholder, dumped );
                     }
-                    else
-                    {
-                        doWriteLine = false;
-                    }
                 }
             }
 
-            if (doWriteLine)
+            // Write to file
+            writer.append(line);
+            if (!line.endsWith("\n"))
+                writer.newLine();
+        }
+
+        // Handle all optional values
+        YamlConfiguration optionalConfig = new YamlConfiguration();
+        for (String path : liveContents.keySet())
+        {
+            if (validationHandler.isOptionalPath( path ))
             {
-                // Write to file
-                writer.append(line);
-                if (!line.endsWith("\n"))
-                    writer.newLine();
+                optionalConfig.set( path, liveContents.get(path) );
             }
         }
+        writer.append( optionalConfig.saveToString() );
 
         reader.close();
         writer.close();

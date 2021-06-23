@@ -1,5 +1,5 @@
 name: BetterYamlTest
 author: BetterPlugins
-version: ${project.version}
+version: 9000
 api-version: "1.13"
 main: be.dezijwegel.betteryaml.testplugin.TestPlugin

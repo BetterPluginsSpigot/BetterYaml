@@ -1,6 +1,7 @@
 package be.dezijwegel.betteryaml.validation;
 
 import be.dezijwegel.betteryaml.validation.validator.Validator;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,28 +13,31 @@ public class ValidationHandler
 
 
     private final Map<String, Validator> validationMap;
+
     private final Set<String> optionalPaths;
+    private final Map<String, Object> defaultOptionalMap;
 
 
     /**
-     * A validation object that handles validation for a specific Map
-     * Add any validator to a path with ValidationHandler#addValidator(String path, Validator validator)
+     * A validation object that handles validation for a specific Map.
+     * Add any validator to a path with ValidationHandler#addValidator(String path, Validator validator).
      */
     public ValidationHandler()
     {
         this.validationMap = new HashMap<>();
         this.optionalPaths = new HashSet<>();
+        this.defaultOptionalMap = new HashMap<>();
     }
 
 
     /**
-     * Specify a validator for the given path. Only ONE validator is allowed per path
-     * If you need multiple validators in a row, please use ChainedValidator which allows multiple validators to be used on one path
-     * Specifying a different validator for the same path will overwrite the previous value
+     * Specify a validator for the given path. Only ONE validator is allowed per path.
+     * If you need multiple validators in a row, please use ChainedValidator which allows multiple validators to be used on one path.
+     * Specifying a different validator for the same path will overwrite the previous value.
      *
-     * @param path the path for which you want to specify a validator
-     * @param validator the validator you want to use for this path
-     * @return the ValidationHandler instance, to allow use of the builder pattern
+     * @param path the path for which you want to specify a validator.
+     * @param validator the validator you want to use for this path.
+     * @return the ValidationHandler instance, to allow use of the builder pattern.
      */
     public ValidationHandler addValidator(final String path, final Validator validator)
     {
@@ -43,17 +47,43 @@ public class ValidationHandler
 
 
     /**
-     * Add a path that does not have to be replaced by the defaults when it is missing
+     * Add a path that does not have to be replaced by the defaults when it is missing.
      * This affects all child paths as well!
-     * Paths marked as optional will still be validated
+     * Paths marked as optional will still be validated.
      *
-     * @param path the path for which no default replacement must be made
-     * @return the ValidationHandler instance, to allow use of the builder pattern
+     * @param path the path for which no default replacement must be made.
+     * @return the ValidationHandler instance, to allow use of the builder pattern.
      */
     public ValidationHandler addOptionalSection(final String path)
     {
         this.optionalPaths.add( path );
         return this;
+    }
+
+
+    /**
+     * Set the default value for a specific optional path. Will only be written to the config if the section does not exist.
+     * Will fail silently if the path does not belong to an optional section.
+     *
+     * @param path the path for which you want to set a default value.
+     * @param value the default value for this path.
+     * @return the ValidationHandler instance, to allow use of the builder pattern.
+     */
+    public ValidationHandler setOptionalValue(final String path, final Object value)
+    {
+        if ( this.isOptionalPath( path ) )
+            this.defaultOptionalMap.put(path, value);
+        return this;
+    }
+
+    /**
+     * Get the default values for the optional paths
+     *
+     * @return the Map with all default (optional) values
+     */
+    public Map<String, Object> getDefaultOptionalMap()
+    {
+        return this.defaultOptionalMap;
     }
 
 
