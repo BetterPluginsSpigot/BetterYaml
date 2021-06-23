@@ -1,5 +1,6 @@
 package be.dezijwegel.betteryaml;
 
+import be.dezijwegel.betteryaml.files.OptionalReader;
 import be.dezijwegel.betteryaml.files.TempFileCopier;
 import be.dezijwegel.betteryaml.files.YamlReader;
 import be.dezijwegel.betteryaml.formatting.CustomFormatter;
@@ -124,8 +125,7 @@ public class BetterYaml implements IConfigReader
      */
     @Deprecated
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public BetterYaml(final String template, final String defaultValues, final String defaultValuesPath, final ValidationHandler validationHandler, final JavaPlugin plugin, final boolean doLogging) throws IOException
-    {
+    public BetterYaml(final String template, final String defaultValues, final String defaultValuesPath, final ValidationHandler validationHandler, final JavaPlugin plugin, final boolean doLogging) throws IOException {
 
         // Create plugin folder if it does not exist
         File folder = plugin.getDataFolder();
@@ -149,8 +149,11 @@ public class BetterYaml implements IConfigReader
         File liveConfig = new File(plugin.getDataFolder(), template);
         Map<String, Object> liveContents;
         if (liveConfig.exists())
+        {
             liveContents = new YamlReader(liveConfig).getContents();
-        else {
+        }
+        else
+        {
             if (doLogging)
                 plugin.getLogger().info(ChatColor.GREEN + "Copying a new " + template + "...");
             liveContents = new HashMap<>();
@@ -160,12 +163,24 @@ public class BetterYaml implements IConfigReader
         File defaultFile = new File(plugin.getDataFolder() + File.separator + "temp", defaultValues);
         Map<String, Object> defaultContents = new YamlReader( defaultFile ).getContents();
 
+        // Remove optional values from the default contents
+        for (String path : defaultContents.keySet())
+        {
+            if (validationHandler.isOptionalPath( path ))
+            {
+                defaultContents.remove( path );
+            }
+        }
+
+        
+
+        // Validate the configurations (validate both to properly handle optional paths)
+        defaultContents = validationHandler.validateConfiguration( defaultContents );
+        liveContents = validationHandler.validateConfiguration( liveContents );
+
         // Merge live and default values
         YamlMerger merger = new YamlMerger( defaultContents );
         Map<String, Object> newContents = merger.merge( liveContents );
-
-        // Validate the configuration
-        newContents = validationHandler.validateConfiguration(newContents);
 
         if (doLogging)
         {
@@ -174,7 +189,7 @@ public class BetterYaml implements IConfigReader
             // Accurate readings require iterating over the map which is not worth it for a simple logging feature
             int difference = defaultContents.size() - liveContents.size();
             if (difference > 0)
-                plugin.getLogger().info("Estimated " + difference + " missing options in " + template + ". Autocompleting your config file...");
+                plugin.getLogger().info("BetterYaml estimated " + difference + " missing options in " + template + ". Autocompleting your config file...");
         }
 
 
@@ -198,7 +213,10 @@ public class BetterYaml implements IConfigReader
 
         // Go through the template and replace all placeholders
         String line;
-        while ((line = reader.readLine()) != null) {
+        while ((line = reader.readLine()) != null)
+        {
+
+            boolean doWriteLine = true;
 
             // Replace placeholders
             String[] replaceThis = StringUtils.substringsBetween(line, "{", "}");
@@ -223,13 +241,20 @@ public class BetterYaml implements IConfigReader
                         // Write the new value
                         line = line.replace( placeholder, dumped );
                     }
+                    else
+                    {
+                        doWriteLine = false;
+                    }
                 }
             }
 
-            // Write to file
-            writer.append(line);
-            if (!line.endsWith("\n"))
-                writer.newLine();
+            if (doWriteLine)
+            {
+                // Write to file
+                writer.append(line);
+                if (!line.endsWith("\n"))
+                    writer.newLine();
+            }
         }
 
         reader.close();

@@ -115,17 +115,23 @@ public class BetterLang implements IOptionalConfigReader
     public BetterLang(final String template, final String localised, final ValidationHandler validationHandler, final JavaPlugin plugin, final boolean doLogging)
     {
         BetterYaml betterYaml = null;
-        try {
+        try
+        {
             betterYaml = new BetterYaml(template, localised, "lang/", validationHandler, plugin, doLogging);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
 
         // Any of these is null? Something went wrong -> empty!
-        if (betterYaml == null || betterYaml.getFile() == null || betterYaml.getYamlConfiguration() == null) {
+        if (betterYaml == null || betterYaml.getFile() == null || betterYaml.getYamlConfiguration() == null)
+        {
             this.file = null;
             this.yamlConfiguration = null;
-        } else {
+        }
+        else
+        {
             this.file = betterYaml.getFile();
             this.yamlConfiguration = betterYaml.getYamlConfiguration();
         }

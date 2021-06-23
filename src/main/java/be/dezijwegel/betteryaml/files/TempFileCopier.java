@@ -23,7 +23,7 @@ public class TempFileCopier
      * fileName will be equal to the one provided in the constructor
      *
      * @param plugin the plugin for which we want to copy a file
-     * @param resourcePath the path in the resources folder, must and end with a slash. Eg. somefolder/ OR can be an empty String
+     * @param resourcePath the path in the resources folder, must end with a slash. Eg. somefolder/ OR can be an empty String
      * @param fileName the name of the file in this folder
      * @param path the path that specifies the folder to copy to. MUST end with a forward slash, but none in front eg. subfolder/
      */
