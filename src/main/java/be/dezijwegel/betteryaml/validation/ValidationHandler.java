@@ -1,7 +1,6 @@
 package be.dezijwegel.betteryaml.validation;
 
 import be.dezijwegel.betteryaml.validation.validator.Validator;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -50,10 +49,12 @@ public class ValidationHandler
      * Add a path that does not have to be replaced by the defaults when it is missing.
      * This affects all child paths as well!
      * Paths marked as optional will still be validated.
+     * @deprecated This is an experimental feature and may be changed or removed in any future update!
      *
      * @param path the path for which no default replacement must be made.
      * @return the ValidationHandler instance, to allow use of the builder pattern.
      */
+    @Deprecated
     public ValidationHandler addOptionalSection(final String path)
     {
         this.optionalPaths.add( path );
@@ -64,11 +65,13 @@ public class ValidationHandler
     /**
      * Set the default value for a specific optional path. Will only be written to the config if the section does not exist.
      * Will fail silently if the path does not belong to an optional section.
+     * @deprecated This is an experimental feature and may be changed or removed in any future update!
      *
      * @param path the path for which you want to set a default value.
      * @param value the default value for this path.
      * @return the ValidationHandler instance, to allow use of the builder pattern.
      */
+    @Deprecated
     public ValidationHandler setOptionalValue(final String path, final Object value)
     {
         if ( this.isOptionalPath( path ) )
@@ -77,10 +80,12 @@ public class ValidationHandler
     }
 
     /**
-     * Get the default values for the optional paths
+     * Get the default values for the optional paths.
+     * @deprecated This is an experimental feature and may be changed or removed in any future update!
      *
-     * @return the Map with all default (optional) values
+     * @return the Map with all default (optional) values.
      */
+    @Deprecated
     public Map<String, Object> getDefaultOptionalMap()
     {
         return this.defaultOptionalMap;
@@ -88,22 +93,26 @@ public class ValidationHandler
 
 
     /**
-     * Returns whether or not the given path is an optional section
+     * Returns whether or not the given path is an optional section.
+     * @deprecated This is an experimental feature and may be changed or removed in any future update.
      *
-     * @param path the section's path
-     * @return true if it, and its children, are optional. False otherwise
+     * @param path the section's path.
+     * @return true if it, and its children, are optional. False otherwise.
      */
+    @Deprecated
     public boolean isOptionalSection(final String path)
     {
         return this.optionalPaths.contains( path );
     }
 
     /**
-     * Check whether a given path is set to be optional
+     * Check whether a given path is set to be optional.
+     * @deprecated This is an experimental feature and may be changed or removed in any future update.
      *
-     * @param path the path to be checked
-     * @return true if the path is optional, false otherwise
+     * @param path the path to be checked.
+     * @return true if the path is optional, false otherwise.
      */
+    @Deprecated
     public boolean isOptionalPath(final String path)
     {
         String[] parts = path.split("\\.");
@@ -121,10 +130,10 @@ public class ValidationHandler
 
 
     /**
-     * Enforce all provided validators for the specified paths
+     * Enforce all provided validators for the specified paths.
      *
-     * @param config a map of paths & their values
-     * @return the corrected map
+     * @param config a map of paths & their values.
+     * @return the corrected map.
      */
     public Map<String, Object> validateConfiguration(final Map<String, Object> config)
     {
