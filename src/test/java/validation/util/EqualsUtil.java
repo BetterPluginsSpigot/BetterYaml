@@ -1,8 +1,18 @@
 package validation.util;
 
+/**
+ * The type Equals util.
+ */
 public class EqualsUtil
 {
 
+    /**
+     * Equals boolean.
+     *
+     * @param o     the o
+     * @param value the value
+     * @return the boolean
+     */
     public static boolean equals(Object o, float value)
     {
         if (o instanceof Float)
@@ -10,6 +20,13 @@ public class EqualsUtil
         return false;
     }
 
+    /**
+     * Equals boolean.
+     *
+     * @param o     the o
+     * @param value the value
+     * @return the boolean
+     */
     public static boolean equals(Object o, double value)
     {
         if (o instanceof Double)
@@ -17,6 +34,13 @@ public class EqualsUtil
         return false;
     }
 
+    /**
+     * Equals boolean.
+     *
+     * @param o     the o
+     * @param value the value
+     * @return the boolean
+     */
     public static boolean equals(Object o, int value)
     {
         if (o instanceof Integer)

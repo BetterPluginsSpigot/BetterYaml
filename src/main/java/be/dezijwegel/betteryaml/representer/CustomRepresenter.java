@@ -6,6 +6,9 @@ import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Represent;
 import org.yaml.snakeyaml.representer.Representer;
 
+/**
+ * The type Custom representer.
+ */
 public class CustomRepresenter extends Representer
 {
 
@@ -17,8 +20,17 @@ public class CustomRepresenter extends Representer
         this.representers.put(String.class, new RepresentYamlString());
     }
 
+    /**
+     * The type Represent yaml string.
+     */
     private class RepresentYamlString implements Represent
     {
+        /**
+         * Represent data node.
+         *
+         * @param data the data
+         * @return the node
+         */
         public Node representData(Object data)
         {
             String string = (String) data;

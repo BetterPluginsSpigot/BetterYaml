@@ -5,9 +5,16 @@ import be.dezijwegel.betteryaml.validation.ValidationHandler;
 import be.dezijwegel.betteryaml.validation.validator.numeric.Range;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * The type Test plugin.
+ */
 public class TestPlugin extends JavaPlugin
 {
 
+    /**
+     * On enable.
+     */
+    @SuppressWarnings("deprecation")
     @Override
     public void onEnable()
     {

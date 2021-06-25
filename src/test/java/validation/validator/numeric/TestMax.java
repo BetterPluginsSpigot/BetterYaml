@@ -6,17 +6,26 @@ import org.junit.Before;
 import org.junit.Test;
 import validation.util.EqualsUtil;
 
+/**
+ * The type Test max.
+ */
 public class TestMax
 {
 
     private Max max;
 
+    /**
+     * Sets .
+     */
     @Before
     public void setup()
     {
         this.max = new Max(10d);
     }
 
+    /**
+     * Test smaller.
+     */
     @Test
     public void testSmaller()
     {
@@ -30,6 +39,9 @@ public class TestMax
         assert EqualsUtil.equals(value, 9f);
     }
 
+    /**
+     * Test equal.
+     */
     @Test
     public void testEqual()
     {
@@ -43,6 +55,9 @@ public class TestMax
         assert EqualsUtil.equals(value, 10f);
     }
 
+    /**
+     * Test bigger.
+     */
     @Test
     public void testBigger()
     {
@@ -56,6 +71,9 @@ public class TestMax
         assert EqualsUtil.equals(value, 10d);
     }
 
+    /**
+     * Test string.
+     */
     @Test
     public void testString()
     {

@@ -11,11 +11,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The type Test custom validator.
+ */
 public class TestCustomValidator
 {
 
     private ValidationHandler validationHandler;
 
+    /**
+     * Sets .
+     */
     @Before
     public void setup()
     {
@@ -27,6 +33,9 @@ public class TestCustomValidator
             .addValidator("lowercase", new ToLowerCase());
     }
 
+    /**
+     * Test validation.
+     */
     @Test
     public void testValidation()
     {

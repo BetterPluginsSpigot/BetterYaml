@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The type Chained validator.
+ */
 public class ChainedValidator extends Validator
 {
 
-    private final List<Validator> validators;
+    private final @NotNull List<Validator> validators;
 
     /**
      * This allows multiple validators to be used on one field
@@ -22,8 +25,14 @@ public class ChainedValidator extends Validator
         this.validators = new ArrayList<>(Arrays.asList(validator));
     }
 
+    /**
+     * Validate object.
+     *
+     * @param o the o
+     * @return the object
+     */
     @Override
-    public Object validate(@NotNull Object o)
+    public @NotNull Object validate(@NotNull Object o)
     {
         for (Validator validator : validators)
             o = validator.validate(o);
