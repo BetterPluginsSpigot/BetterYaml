@@ -1,6 +1,7 @@
 package be.dezijwegel.betteryaml.files;
 
 import be.dezijwegel.betteryaml.validation.ValidationHandler;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,21 +10,25 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Optional reader.
+ */
+@SuppressWarnings("unused")
 public class OptionalReader
 {
 
-    private final Map<String, Object> optionalContents;
+    private final @NotNull Map<String, Object> optionalContents;
 
     /**
      * Creates a YamlReader from a given File
      * YamlReader supports nested keys
      * All key-value pairs will be added to a Map
      *
-     * @param file the file to be read
+     * @param file              the file to be read
      * @param validationHandler the validationHandler, containing all optional paths
      * @throws IOException when a stream cannot be created or the file does not exist
      */
-    public OptionalReader(final File file, final ValidationHandler validationHandler) throws IOException
+    public OptionalReader(final @NotNull File file, final @NotNull ValidationHandler validationHandler) throws IOException
     {
         this(new FileInputStream(file), validationHandler);
     }
@@ -33,11 +38,12 @@ public class OptionalReader
      * YamlReader supports nested keys
      * All key-value pairs will be added to a Map
      *
-     * @param fis the InputStream to be read
+     * @param fis               the InputStream to be read
      * @param validationHandler the validationHandler, containing all optional paths
      * @throws IOException when a stream cannot be created or the file does not exist
      */
-    public OptionalReader(final InputStream fis, final ValidationHandler validationHandler) throws IOException
+    @SuppressWarnings("deprecation")
+    public OptionalReader(final @NotNull InputStream fis, final @NotNull ValidationHandler validationHandler) throws IOException
     {
         optionalContents = new HashMap<>();
         YamlReader reader = new YamlReader(fis);
@@ -52,7 +58,12 @@ public class OptionalReader
         }
     }
 
-    public Map<String, Object> getOptionalContents()
+    /**
+     * Gets optional contents.
+     *
+     * @return the optional contents
+     */
+    public @NotNull Map<String, Object> getOptionalContents()
     {
         return optionalContents;
     }

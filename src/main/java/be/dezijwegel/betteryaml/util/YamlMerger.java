@@ -1,8 +1,13 @@
 package be.dezijwegel.betteryaml.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Yaml merger.
+ */
 public class YamlMerger
 {
 
@@ -28,7 +33,7 @@ public class YamlMerger
      * @param options the options to be merged with all default values
      * @return the merged Map
      */
-    public Map<String, Object> merge(final Map<String, Object> options)
+    public @NotNull Map<String, Object> merge(final @NotNull Map<String, Object> options)
     {
         Map<String, Object> mergedMap = new HashMap<>();
 

@@ -12,20 +12,24 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+/**
+ * The type Temp file copier.
+ */
 public class TempFileCopier
 {
 
-    private final File copiedFile;
+    private final @NotNull File copiedFile;
 
     /**
      * Copy the specified file to a relative location of the plugins config folder
      * Provide an empty string if you want to copy to /plugins/YOURPLUGIN/fileName
      * fileName will be equal to the one provided in the constructor
      *
-     * @param plugin the plugin for which we want to copy a file
+     * @param plugin       the plugin for which we want to copy a file
      * @param resourcePath the path in the resources folder, must end with a slash. Eg. somefolder/ OR can be an empty String
-     * @param fileName the name of the file in this folder
-     * @param path the path that specifies the folder to copy to. MUST end with a forward slash, but none in front eg. subfolder/
+     * @param fileName     the name of the file in this folder
+     * @param path         the path that specifies the folder to copy to. MUST end with a forward slash, but none in front eg. subfolder/
+     * @throws IOException the io exception
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public TempFileCopier(final @NotNull Plugin plugin, final String resourcePath, final String fileName, final String path) throws IOException

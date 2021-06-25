@@ -9,6 +9,17 @@ import java.io.File;
  */
 public interface IConfigReader
 {
+    /**
+     * Gets file.
+     *
+     * @return the file
+     */
     File getFile();
+
+    /**
+     * Gets yaml configuration.
+     *
+     * @return the yaml configuration
+     */
     YamlConfiguration getYamlConfiguration();
 }

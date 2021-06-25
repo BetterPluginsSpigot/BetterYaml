@@ -6,6 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 import validation.util.EqualsUtil;
 
+/**
+ * The type Test range.
+ */
 public class TestRange
 {
 
@@ -14,6 +17,9 @@ public class TestRange
 
     private Range range;
 
+    /**
+     * Sets .
+     */
     @Before
     public void setup()
     {
@@ -22,6 +28,9 @@ public class TestRange
         range = new Range(minValue, maxValue);
     }
 
+    /**
+     * Test smaller.
+     */
     @Test
     public void testSmaller()
     {
@@ -29,6 +38,9 @@ public class TestRange
         assert EqualsUtil.equals(value, 5);
     }
 
+    /**
+     * Test in range.
+     */
     @Test
     public void testInRange()
     {
@@ -36,6 +48,9 @@ public class TestRange
         assert EqualsUtil.equals(value, 7f);
     }
 
+    /**
+     * Test bigger.
+     */
     @Test
     public void testBigger()
     {
@@ -44,6 +59,9 @@ public class TestRange
     }
 
 
+    /**
+     * Test string.
+     */
     @Test
     public void testString()
     {

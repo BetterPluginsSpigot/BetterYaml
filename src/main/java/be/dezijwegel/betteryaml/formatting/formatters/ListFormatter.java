@@ -1,14 +1,25 @@
 package be.dezijwegel.betteryaml.formatting.formatters;
 
 import be.dezijwegel.betteryaml.formatting.IFormatter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * The type List formatter.
+ */
 public class ListFormatter implements IFormatter
 {
 
+    /**
+     * Format string.
+     *
+     * @param o          the o
+     * @param serialised the serialised
+     * @return the string
+     */
     @Override
-    public String format(final Object o, final String serialised)
+    public @NotNull String format(final Object o, final @NotNull String serialised)
     {
         if ( !(o instanceof List))
             return serialised;

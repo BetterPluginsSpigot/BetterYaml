@@ -1,20 +1,25 @@
 package be.dezijwegel.betteryaml.validation;
 
 import be.dezijwegel.betteryaml.validation.validator.Validator;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * The type Validation handler.
+ */
+@SuppressWarnings("ALL")
 public class ValidationHandler
 {
 
 
-    private final Map<String, Validator> validationMap;
+    private final @NotNull Map<String, Validator> validationMap;
 
-    private final Set<String> optionalPaths;
-    private final Map<String, Object> defaultOptionalMap;
+    private final @NotNull Set<String> optionalPaths;
+    private final @NotNull Map<String, Object> defaultOptionalMap;
 
 
     /**
@@ -34,11 +39,11 @@ public class ValidationHandler
      * If you need multiple validators in a row, please use ChainedValidator which allows multiple validators to be used on one path.
      * Specifying a different validator for the same path will overwrite the previous value.
      *
-     * @param path the path for which you want to specify a validator.
+     * @param path      the path for which you want to specify a validator.
      * @param validator the validator you want to use for this path.
      * @return the ValidationHandler instance, to allow use of the builder pattern.
      */
-    public ValidationHandler addValidator(final String path, final Validator validator)
+    public @NotNull ValidationHandler addValidator(final String path, final Validator validator)
     {
         this.validationMap.put( path, validator);
         return this;
@@ -49,13 +54,14 @@ public class ValidationHandler
      * Add a path that does not have to be replaced by the defaults when it is missing.
      * This affects all child paths as well!
      * Paths marked as optional will still be validated.
-     * @deprecated This is an experimental feature and may be changed or removed in any future update!
      *
      * @param path the path for which no default replacement must be made.
      * @return the ValidationHandler instance, to allow use of the builder pattern.
+     * @deprecated This is an experimental feature and may be changed or removed in any future update!
      */
+    @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
-    public ValidationHandler addOptionalSection(final String path)
+    public @NotNull ValidationHandler addOptionalSection(final String path)
     {
         this.optionalPaths.add( path );
         return this;
@@ -65,14 +71,14 @@ public class ValidationHandler
     /**
      * Set the default value for a specific optional path. Will only be written to the config if the section does not exist.
      * Will fail silently if the path does not belong to an optional section.
-     * @deprecated This is an experimental feature and may be changed or removed in any future update!
      *
-     * @param path the path for which you want to set a default value.
+     * @param path  the path for which you want to set a default value.
      * @param value the default value for this path.
      * @return the ValidationHandler instance, to allow use of the builder pattern.
+     * @deprecated This is an experimental feature and may be changed or removed in any future update!
      */
     @Deprecated
-    public ValidationHandler setOptionalValue(final String path, final Object value)
+    public @NotNull ValidationHandler setOptionalValue(final @NotNull String path, final Object value)
     {
         if ( this.isOptionalPath( path ) )
             this.defaultOptionalMap.put(path, value);
@@ -81,12 +87,12 @@ public class ValidationHandler
 
     /**
      * Get the default values for the optional paths.
-     * @deprecated This is an experimental feature and may be changed or removed in any future update!
      *
      * @return the Map with all default (optional) values.
+     * @deprecated This is an experimental feature and may be changed or removed in any future update!
      */
     @Deprecated
-    public Map<String, Object> getDefaultOptionalMap()
+    public @NotNull Map<String, Object> getDefaultOptionalMap()
     {
         return this.defaultOptionalMap;
     }
@@ -94,10 +100,10 @@ public class ValidationHandler
 
     /**
      * Returns whether or not the given path is an optional section.
-     * @deprecated This is an experimental feature and may be changed or removed in any future update.
      *
      * @param path the section's path.
      * @return true if it, and its children, are optional. False otherwise.
+     * @deprecated This is an experimental feature and may be changed or removed in any future update.
      */
     @Deprecated
     public boolean isOptionalSection(final String path)
@@ -107,13 +113,13 @@ public class ValidationHandler
 
     /**
      * Check whether a given path is set to be optional.
-     * @deprecated This is an experimental feature and may be changed or removed in any future update.
      *
      * @param path the path to be checked.
      * @return true if the path is optional, false otherwise.
+     * @deprecated This is an experimental feature and may be changed or removed in any future update.
      */
     @Deprecated
-    public boolean isOptionalPath(final String path)
+    public boolean isOptionalPath(final @NotNull String path)
     {
         String[] parts = path.split("\\.");
         String pathPart = null;
@@ -135,7 +141,7 @@ public class ValidationHandler
      * @param config a map of paths & their values.
      * @return the corrected map.
      */
-    public Map<String, Object> validateConfiguration(final Map<String, Object> config)
+    public @NotNull Map<String, Object> validateConfiguration(final @NotNull Map<String, Object> config)
     {
         // Not as efficient as reading the required validation fields, but this is more readable
         for (String path : config.keySet())

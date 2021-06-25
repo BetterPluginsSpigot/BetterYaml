@@ -4,9 +4,12 @@ import be.dezijwegel.betteryaml.util.NumbersUtil;
 import be.dezijwegel.betteryaml.validation.validator.Validator;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * The type Min.
+ */
 public class Min extends Validator
 {
-    private final Number min;
+    private final @NotNull Number min;
 
     /**
      * Provide a minimum value for this setting
@@ -20,8 +23,14 @@ public class Min extends Validator
         this.min = min;
     }
 
+    /**
+     * Validate object.
+     *
+     * @param o the o
+     * @return the object
+     */
     @Override
-    public Object validate(@NotNull Object o)
+    public @NotNull Object validate(@NotNull Object o)
     {
         if ( !(o instanceof Number) )
             return min;

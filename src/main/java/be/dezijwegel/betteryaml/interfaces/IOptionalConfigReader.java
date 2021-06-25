@@ -11,6 +11,17 @@ import java.util.Optional;
 @SuppressWarnings({"unused"})
 public interface IOptionalConfigReader
 {
+    /**
+     * Gets file.
+     *
+     * @return the file
+     */
     Optional<File> getFile();
+
+    /**
+     * Gets yaml configuration.
+     *
+     * @return the yaml configuration
+     */
     Optional<YamlConfiguration> getYamlConfiguration();
 }

@@ -6,17 +6,26 @@ import org.junit.Before;
 import org.junit.Test;
 import validation.util.EqualsUtil;
 
+/**
+ * The type Test min.
+ */
 public class TestMin
 {
 
     private Min min;
 
+    /**
+     * Sets .
+     */
     @Before
     public void setup()
     {
         min = new Min(12);
     }
 
+    /**
+     * Test smaller.
+     */
     @Test
     public void testSmaller()
     {
@@ -30,6 +39,9 @@ public class TestMin
         assert EqualsUtil.equals(value, 12);
     }
 
+    /**
+     * Test equal.
+     */
     @Test
     public void testEqual()
     {
@@ -43,6 +55,9 @@ public class TestMin
         assert EqualsUtil.equals(value, 12f);
     }
 
+    /**
+     * Test bigger.
+     */
     @Test
     public void testBigger()
     {
@@ -57,6 +72,9 @@ public class TestMin
     }
 
 
+    /**
+     * Test string.
+     */
     @Test
     public void testString()
     {

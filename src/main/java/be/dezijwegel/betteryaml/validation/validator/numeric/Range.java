@@ -3,11 +3,14 @@ package be.dezijwegel.betteryaml.validation.validator.numeric;
 import be.dezijwegel.betteryaml.validation.validator.Validator;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * The type Range.
+ */
 public class Range extends Validator
 {
 
-    private final Min min;
-    private final Max max;
+    private final @NotNull Min min;
+    private final @NotNull Max max;
 
     /**
      * Provide a range [min, max] for this setting
@@ -22,8 +25,14 @@ public class Range extends Validator
         this.max = new Max(max);
     }
 
+    /**
+     * Validate object.
+     *
+     * @param o the o
+     * @return the object
+     */
     @Override
-    public Object validate(@NotNull Object o)
+    public @NotNull Object validate(@NotNull Object o)
     {
         Object maxLimited = max.validate(o);
         return min.validate( maxLimited );

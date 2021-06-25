@@ -1,5 +1,6 @@
 package be.dezijwegel.betteryaml.files;
 
+import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -10,6 +11,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Yaml reader.
+ */
 public class YamlReader
 {
 
@@ -23,7 +27,7 @@ public class YamlReader
      * @param file the file to be read
      * @throws IOException when a stream cannot be created or the file does not exist
      */
-    public YamlReader(final File file) throws IOException
+    public YamlReader(final @NotNull File file) throws IOException
     {
         this(new FileInputStream(file));
     }
@@ -36,7 +40,7 @@ public class YamlReader
      * @param fis the InputStream to be read
      * @throws IOException when a stream cannot be created or the file does not exist
      */
-    public YamlReader(final InputStream fis) throws IOException
+    public YamlReader(final @NotNull InputStream fis) throws IOException
     {
         LoaderOptions loaderOptions = new LoaderOptions();
         loaderOptions.setAllowRecursiveKeys(true);
@@ -59,7 +63,7 @@ public class YamlReader
      *
      * @return all keys and their mapped values from within the file
      */
-    public Map<String, Object> getContents()
+    public @NotNull Map<String, Object> getContents()
     {
         return this.contents;
     }
@@ -70,9 +74,9 @@ public class YamlReader
      * Adds a key-value pair to the contents Map if the path does not have subsections
      *
      * @param entry the key-value pair under consideration
-     * @param path the previous path, to keep track of nested keys
+     * @param path  the previous path, to keep track of nested keys
      */
-    private void addRecursiveContents(final Map.Entry<String, Object> entry, final String path)
+    private void addRecursiveContents(final Map.@NotNull Entry<String, Object> entry, final @NotNull String path)
     {
         String key = entry.getKey();
         Object value = entry.getValue();

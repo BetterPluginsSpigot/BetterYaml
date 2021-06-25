@@ -4,10 +4,13 @@ import be.dezijwegel.betteryaml.util.NumbersUtil;
 import be.dezijwegel.betteryaml.validation.validator.Validator;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * The type Max.
+ */
 public class Max extends Validator
 {
 
-    private final Number max;
+    private final @NotNull Number max;
 
     /**
      * Provide a maximum value for this setting
@@ -21,8 +24,14 @@ public class Max extends Validator
         this.max = max;
     }
 
+    /**
+     * Validate object.
+     *
+     * @param o the o
+     * @return the object
+     */
     @Override
-    public Object validate(@NotNull Object o)
+    public @NotNull Object validate(@NotNull Object o)
     {
         if ( !(o instanceof Number) )
             return max;
