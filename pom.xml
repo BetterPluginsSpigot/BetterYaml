@@ -7,7 +7,7 @@
 
     <groupId>be.dezijwegel.betteryaml</groupId>
     <artifactId>betteryaml</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 
 
     <properties>

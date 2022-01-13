@@ -1,6 +1,9 @@
 package validation.validator.string;
 
+import be.dezijwegel.betteryaml.validation.validator.ChainedValidator;
+import be.dezijwegel.betteryaml.validation.validator.Validator;
 import be.dezijwegel.betteryaml.validation.validator.string.StringWhiteList;
+import be.dezijwegel.betteryaml.validation.validator.string.ToLowerCase;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,5 +47,20 @@ public class TestStringWhiteList
         Object validated = stringWhiteList.validate(48);
         assert validated instanceof String;
         assert validated.equals("default");
+    }
+
+    @Test
+    public void testChainedValidator() {
+        Validator validator = new ChainedValidator(
+            new StringWhiteList("percentage", true, "percentage", "absolute"),
+            new ToLowerCase()
+        );
+
+        assert validator.validate("percentage").equals("percentage");
+        assert validator.validate("Percentage").equals("percentage");
+        assert validator.validate("obsolute").equals("percentage");
+
+        assert validator.validate("absolute").equals("absolute");
+        assert validator.validate("absoLute").equals("absolute");
     }
 }
