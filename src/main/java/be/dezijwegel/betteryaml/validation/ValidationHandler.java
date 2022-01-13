@@ -140,12 +140,17 @@ public class ValidationHandler
         // Not as efficient as reading the required validation fields, but this is more readable
         for (String path : config.keySet())
         {
+            Object validated;
             if ( validationMap.containsKey( path ) )
             {
                 Object value = config.get( path );
-                Object validated = validationMap.get( path ).validate( value );
-                config.put(path, validated);
+                validated = validationMap.get( path ).validate( value );
             }
+            else
+            {
+                validated = config.get( path );
+            }
+            config.put(path, validated);
         }
         return config;
     }
