@@ -138,19 +138,13 @@ public class ValidationHandler
     public Map<String, Object> validateConfiguration(final Map<String, Object> config)
     {
         // Not as efficient as reading the required validation fields, but this is more readable
-        for (String path : config.keySet())
+        for (Map.Entry<String, Object> entry : config.entrySet())
         {
-            Object validated;
-            if ( validationMap.containsKey( path ) )
-            {
-                Object value = config.get( path );
-                validated = validationMap.get( path ).validate( value );
-            }
-            else
-            {
-                validated = config.get( path );
-            }
-            config.put(path, validated);
+            String path = entry.getKey();
+            Object value = entry.getValue();
+
+            Object validatedValue = validationMap.containsKey( path ) ? validationMap.get( path ).validate( value ) : value;
+            config.put(path, validatedValue);
         }
         return config;
     }
