@@ -140,22 +140,15 @@ public class ValidationHandler
     public Map<String, Object> validateConfiguration(final Map<String, Object> config)
     {
         // Not as efficient as reading the required validation fields, but this is more readable
-        for (String path : config.keySet())
+        for (Map.Entry<String, Object> entry : config.entrySet())
         {
-            BetterYamlLogger.log(Level.FINEST, "Validating path " + path);
-            Object validated;
-            if ( validationMap.containsKey( path ) )
-            {
-                Object value = config.get( path );
-                validated = validationMap.get( path ).validate( value );
-                BetterYamlLogger.log(Level.FINER, "Needs validation: " + value + " becomes " + validated);
-            }
-            else
-            {
-                validated = config.get( path );
-                BetterYamlLogger.log(Level.FINEST, "No validation configured for " + validated);
-            }
-            config.put(path, validated);
+            String path = entry.getKey();
+            Object value = entry.getValue();
+
+            Object validatedValue = validationMap.containsKey( path ) ? validationMap.get( path ).validate( value ) : value;
+            config.put(path, validatedValue);
+
+            BetterYamlLogger.log(Level.FINER, "Validation: " + value + " becomes " + validatedValue);
         }
         return config;
     }
