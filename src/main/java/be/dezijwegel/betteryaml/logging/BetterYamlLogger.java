@@ -45,9 +45,9 @@ public class BetterYamlLogger
     public static String personalisePrefix(@Nullable JavaPlugin plugin)
     {
         if (plugin != null)
-            PREFIX = "[BetterYaml ~ " + plugin.getName() + "]";
+            PREFIX = "[BetterYaml ~ " + plugin.getName() + "] ";
         else
-            PREFIX = "[BetterYaml]";
+            PREFIX = "[BetterYaml] ";
         return PREFIX;
     }
 

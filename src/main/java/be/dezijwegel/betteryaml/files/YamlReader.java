@@ -82,7 +82,6 @@ public class YamlReader
     {
         String key = entry.getKey();
         Object value = entry.getValue();
-        BetterYamlLogger.log(Level.FINEST, "Adding recursive contents for " + key);
 
         final String newPath = path.equals("") ? key : path + "." + key;
 

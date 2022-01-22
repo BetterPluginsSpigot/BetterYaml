@@ -148,7 +148,7 @@ public class ValidationHandler
             Object validatedValue = validationMap.containsKey( path ) ? validationMap.get( path ).validate( value ) : value;
             config.put(path, validatedValue);
 
-            BetterYamlLogger.log(Level.FINER, "Validation: " + value + " becomes " + validatedValue);
+            BetterYamlLogger.log(Level.FINER, "Validation at " + path + ": " + value + " becomes " + validatedValue);
         }
         return config;
     }
