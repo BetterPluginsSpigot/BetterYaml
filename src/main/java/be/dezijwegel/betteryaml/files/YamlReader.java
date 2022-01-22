@@ -1,5 +1,6 @@
 package be.dezijwegel.betteryaml.files;
 
+import be.dezijwegel.betteryaml.logging.BetterYamlLogger;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class YamlReader
 {
@@ -38,6 +40,8 @@ public class YamlReader
      */
     public YamlReader(final InputStream fis) throws IOException
     {
+        BetterYamlLogger.log(Level.FINER, "Starting YAML reader");
+
         LoaderOptions loaderOptions = new LoaderOptions();
         loaderOptions.setAllowRecursiveKeys(true);
         Yaml yaml = new Yaml(loaderOptions);
@@ -50,6 +54,8 @@ public class YamlReader
         }
 
         fis.close();
+
+        BetterYamlLogger.log(Level.FINER, "Stopped YAML reader");
     }
 
     /**
@@ -76,11 +82,13 @@ public class YamlReader
     {
         String key = entry.getKey();
         Object value = entry.getValue();
+        BetterYamlLogger.log(Level.FINEST, "Adding recursive contents for " + key);
 
         final String newPath = path.equals("") ? key : path + "." + key;
 
         if (value instanceof Map)
         {
+            BetterYamlLogger.log(Level.FINEST, "Value at " + key + " contains a deeper configuration level");
             @SuppressWarnings("unchecked")
             Map<String, Object> map = (Map<String, Object>) value;
             for (Map.Entry<String, Object> subEntry : map.entrySet())
@@ -89,6 +97,7 @@ public class YamlReader
         }
         else
         {
+            BetterYamlLogger.log(Level.FINEST, "Found " + value + " at " + newPath);
             contents.put(newPath, value);
         }
     }

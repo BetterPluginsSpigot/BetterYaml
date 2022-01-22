@@ -4,6 +4,7 @@ import be.dezijwegel.betteryaml.files.TempFileCopier;
 import be.dezijwegel.betteryaml.files.YamlReader;
 import be.dezijwegel.betteryaml.formatting.CustomFormatter;
 import be.dezijwegel.betteryaml.interfaces.IConfigReader;
+import be.dezijwegel.betteryaml.logging.BetterYamlLogger;
 import be.dezijwegel.betteryaml.representer.CustomRepresenter;
 import be.dezijwegel.betteryaml.util.YamlMerger;
 import be.dezijwegel.betteryaml.validation.ValidationHandler;
@@ -19,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * A class aimed at internal use only. It is recommended to use OptionalBetterYaml
@@ -119,12 +121,16 @@ public class BetterYaml implements IConfigReader
      * @param defaultValuesPath the path to the default resource (ending on a /)
      * @param validationHandler the validator that can autocorrect options, based on your provided settings
      * @param plugin the JavaPlugin for which a file is copied
-     * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found)
+     * @param doLogging whether or not basic logging is done in your plugin's name. (Only logs on copying a new file and when missing options are found). The logging level (for debugging) can be lowered by using the BetterYamlLogger class
      * @throws IOException when your configuration is incorrect
      */
     @Deprecated
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public BetterYaml(final String template, final String defaultValues, final String defaultValuesPath, final ValidationHandler validationHandler, final JavaPlugin plugin, final boolean doLogging) throws IOException {
+
+        // Show the sending plugin's name in all logs
+        BetterYamlLogger.personalisePrefix(plugin);
+        BetterYamlLogger.includeLogLevel(doLogging ? Level.INFO : Level.OFF);
 
         // Create plugin folder if it does not exist
         File folder = plugin.getDataFolder();
@@ -134,6 +140,8 @@ public class BetterYaml implements IConfigReader
         //
         // Copy temp files
         //
+
+        BetterYamlLogger.log(Level.FINEST, "Copying temp files for " + template + "...");
 
         TempFileCopier defaultCopy = new TempFileCopier(plugin, defaultValuesPath, defaultValues, "temp" + File.separator);
         TempFileCopier templateCopy = new TempFileCopier(plugin, "templates/", template, "temp" + File.separator + "templates" + File.separator);
@@ -149,19 +157,27 @@ public class BetterYaml implements IConfigReader
         Map<String, Object> liveContents;
         if (liveConfig.exists())
         {
+            BetterYamlLogger.log(Level.FINER, "Existing " + template + " found");
             liveContents = new YamlReader(liveConfig).getContents();
         }
         else
         {
-            if (doLogging)
-                plugin.getLogger().info(ChatColor.GREEN + "Copying a new " + template + "...");
+            BetterYamlLogger.info(ChatColor.GREEN + "Copying a new " + template + "...");
             // Copy optional values to the live config
             liveContents = new HashMap<>(validationHandler.getDefaultOptionalMap());
         }
 
+        BetterYamlLogger.log(Level.FINE, "Live contents:");
+        BetterYamlLogger.log(Level.FINE, liveContents.toString());
+
         // Get config with default values
+        BetterYamlLogger.log(Level.FINE, "Getting the default contents");
+
         File defaultFile = new File(plugin.getDataFolder() + File.separator + "temp", defaultValues);
         Map<String, Object> defaultContents = new YamlReader( defaultFile ).getContents();
+
+        BetterYamlLogger.log(Level.FINE, "Default contents:");
+        BetterYamlLogger.log(Level.FINE, defaultContents.toString());
 
         // Validate the configurations (validate both to properly handle optional paths)
         defaultContents = validationHandler.validateConfiguration( defaultContents );
@@ -171,15 +187,14 @@ public class BetterYaml implements IConfigReader
         YamlMerger merger = new YamlMerger( defaultContents );
         Map<String, Object> newContents = merger.merge( liveContents );
 
-        if (doLogging)
-        {
-            // Do a missing options estimation
-            // May be inaccurate when the user has key-value pairs that are not in the default file
-            // Accurate readings require iterating over the map which is not worth it for a simple logging feature
-            int difference = defaultContents.size() - liveContents.size();
-            if (difference > 0)
-                plugin.getLogger().info("BetterYaml estimated " + difference + " missing options in " + template + ". Autocompleting your config file...");
-        }
+        // Do a missing options estimation
+        // May be inaccurate when the user has key-value pairs that are not in the default file
+        // Accurate readings require iterating over the map which is not worth it for a simple logging feature
+        int difference = defaultContents.size() - liveContents.size();
+        if (difference > 0)
+            BetterYamlLogger.info("BetterYaml estimated " + difference + " missing options in " + template + ". Autocompleting your config file...");
+        else
+            BetterYamlLogger.log(Level.CONFIG, "No missing options found in " + template + "!");
 
 
         //

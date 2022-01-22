@@ -1,6 +1,7 @@
 string: "Double quoted"
 string2: 'Single quoted'
 string3: Not quoted
+validatedString: "One"
 number: 256
 float: 15.26
 boolean: true

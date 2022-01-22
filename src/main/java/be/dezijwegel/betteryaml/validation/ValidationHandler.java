@@ -1,11 +1,13 @@
 package be.dezijwegel.betteryaml.validation;
 
+import be.dezijwegel.betteryaml.logging.BetterYamlLogger;
 import be.dezijwegel.betteryaml.validation.validator.Validator;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 public class ValidationHandler
 {
@@ -140,15 +142,18 @@ public class ValidationHandler
         // Not as efficient as reading the required validation fields, but this is more readable
         for (String path : config.keySet())
         {
+            BetterYamlLogger.log(Level.FINEST, "Validating path " + path);
             Object validated;
             if ( validationMap.containsKey( path ) )
             {
                 Object value = config.get( path );
                 validated = validationMap.get( path ).validate( value );
+                BetterYamlLogger.log(Level.FINER, "Needs validation: " + value + " becomes " + validated);
             }
             else
             {
                 validated = config.get( path );
+                BetterYamlLogger.log(Level.FINEST, "No validation configured for " + validated);
             }
             config.put(path, validated);
         }
